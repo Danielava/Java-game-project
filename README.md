@@ -1,8 +1,5 @@
 # Java-game-project
 
-# FastMM4
-Fast Memory Manager
-
 Description:
  A simple card game with different universal features for card games implemented, such as 
  cards having attack, health, abilities, positions in the deck, hand and on the board. More unique features so far
