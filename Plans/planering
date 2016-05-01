@@ -1,0 +1,7 @@
+//Här delar vi upp arbetet etc
+
+Raffe:
+GameBoard, Deck, Hand
+
+Danne:
+GameBoard, Card
