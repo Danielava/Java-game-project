@@ -1,0 +1,4 @@
+Our goal is to try and create a very accessible yet strategic card game. 
+The basic idea is that you take cards from your deck and put them on the board. 
+
+Each card will have some attacks and all that. The attacks executed are decided by a dice roll. If you roll a 4 on the dice and you have a card on the board with an attackNr 4 that attack will be executed etc. The idea may sound too simple at first but we are trying to come up with how we can make this game more strategic. 

@@ -1,0 +1,10 @@
+We plane to create these classes:
+GameLoop //
+Board //fixed the board with javaFX stuff
+Card //holds all info about card and also generates the card into a visible object
+Spell //Holds info about spells, attacks, name, type (from Type object), Ability obj
+Hand
+Player (?)
+Deck
+Ability //some 
+Type //will hold info about the different types of cards (fire, lightning, dark etc)
