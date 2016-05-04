@@ -22,23 +22,31 @@ import java.util.ArrayList;
 public class Card {
 
     private String name;
+    private ArrayList<Spell> spells;
     private int health;
     private Image image; //loads the image
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
 
-    public Card(Image png, String name, int hp) {
-        iv = new ImageView();
+    public Card(Image png, String name, int hp, ArrayList<Spell> spells) {
         image = png;
+        iv = new ImageView();
         this.name = name;
+        this.spells = spells;
         health = hp;
         iv.setImage(image);
+        getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
     }
 
     //förstör kortet
     private void destroy() {
 
     }
+
+    private void getSpellInfo() {
+        spellInfo = new ArrayList<Label>();
+    }
+
 
     public String getName() {
         return name;
