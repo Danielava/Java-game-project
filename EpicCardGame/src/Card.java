@@ -1,4 +1,6 @@
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -29,5 +31,39 @@ public class Card {
         image = png;
         this.name = name;
         health = hp;
+    }
+
+    //förstör kortet
+    private void destroy() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    /*
+	How to use this function.. Create a Card object and define its fields etc.
+	This method will generate the cards, set each things to pieces like name on top,
+	image under, and spells under that etc.
+	To then draw this on the canvas you will write in code: root.getChildren.add(card1.generateCard());
+	 */
+    public VBox generateCard(Group root) {
+        VBox card = new VBox();
+
+        iv.prefHeight(100);
+        iv.prefWidth(100);
+
+        iv.setFitHeight(100 * 1.6);
+        iv.setFitWidth(110 * 1.6);
+
+        card.getChildren().addAll(iv);
+        root.getChildren().addAll(card);
+
+        return card;
     }
 }
