@@ -45,6 +45,6 @@ public class Graphics extends Application{
         ArrayList<Spell> squidSpells = new ArrayList<Spell>();
         squidSpells.add(inkPow);
         Image squidPng = new Image("images/splat.png");
-        squid = new Card(squidPng, "Aori", 70);
+        squid = new Card(squidPng, "Aori", 70, squidSpells);
     }
 }
