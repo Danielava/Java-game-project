@@ -1,3 +1,8 @@
+import javafx.scene.image.ImageView;
+
+import java.awt.*;
+import java.util.ArrayList;
+
 /**
  * The card class. It is responsible for every card that the
  * player can put on the board.
@@ -12,5 +17,17 @@
  * which will be drawn on the canvas.
  */
 public class Card {
-    
+
+    private String name;
+    private int health;
+    private Image image; //loads the image
+    private ImageView iv; //creates the visble object
+    private ArrayList<Label> spellInfo;
+
+    public Card(Image png, String name, int hp) {
+        iv = new ImageView();
+        image = png;
+        this.name = name;
+        health = hp;
+    }
 }
