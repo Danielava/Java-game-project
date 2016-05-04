@@ -1,8 +1,9 @@
 import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -31,6 +32,7 @@ public class Card {
         image = png;
         this.name = name;
         health = hp;
+        iv.setImage(image);
     }
 
     //förstör kortet
