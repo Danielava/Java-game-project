@@ -35,7 +35,7 @@ public class Card {
         this.spells = spells;
         health = hp;
         iv.setImage(image);
-        getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
+        //getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
     }
 
     //förstör kortet
@@ -43,8 +43,23 @@ public class Card {
 
     }
 
-    private void getSpellInfo() {
+    /**
+     * Another help method used to put the spellInfo in
+     * the form of labels, into the VBox.
+     * @param card The card you wish to add the info to.
+     */
+
+    private void generateSpell(VBox card) {
+
         spellInfo = new ArrayList<Label>();
+        /*
+        Nu hamnar all spellinfo i Vboxen.
+         */
+        for (Spell s : spells) {
+            //spellInfo.add(s.getInfo());
+            card.getChildren().add(s.getInfo());
+        }
+
     }
 
 
@@ -65,6 +80,8 @@ public class Card {
     public VBox generateCard(Group root) {
         VBox card = new VBox();
 
+        card.getStyleClass().addAll("vbox");
+
         iv.prefHeight(100);
         iv.prefWidth(100);
 
@@ -72,6 +89,8 @@ public class Card {
         iv.setFitWidth(110 * 1.6);
 
         card.getChildren().addAll(iv);
+        generateSpell(card); //adds the spells to this VBox
+
         root.getChildren().addAll(card);
 
         return card;
