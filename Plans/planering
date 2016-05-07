@@ -4,4 +4,4 @@ Raffe:
 GameBoard, Deck, Hand
 
 Danne:
-GameBoard, Card
+Graphics, Card, Spells, Abilities
