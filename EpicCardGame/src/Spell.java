@@ -1,3 +1,5 @@
+import javafx.scene.control.Label;
+
 /**
  * This class contains all the card spells and attacks etc.
  * Created by Mariostarr on 25/04/16.
@@ -9,12 +11,15 @@ public class Spell {
     //private Ability ability; //some spells will inflict status stuff when executed. These are kept in Abilities class
     private int attackPower;
     private int diceNumber;
+    private Label label;
 
     public Spell(String name, int power, int diceNr) {
         //ability = new Ability();
         this.name = name;
         attackPower = power;
         diceNumber = diceNr;
+        //label = new Label(); //skapa label Objekt i generateInfo istället och i dess konstruktors parameter skriver du en string som du genererat i förväg.
+        generateInfo();
     }
 
     /**
@@ -33,6 +38,23 @@ public class Spell {
 
     public int getPower() {
         return attackPower;
+    }
+
+    /**
+     * Genererar info om attacken och sätter denna info
+     * i ett label objekt
+     */
+    private void generateInfo() {
+        //vår string med info
+        String attackInfo = diceNumber + " - " + name;
+        label = new Label(attackInfo);
+    }
+
+    /**
+     * Returnerar ett label objekt som innehåller info om spell
+     */
+    public Label getInfo() {
+        return label;
     }
 
     /**
