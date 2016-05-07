@@ -13,26 +13,25 @@ public class Graphics extends Application{
 
     private Stage window;
     private Scene scene;
-    private Group root;
+    private Group rootNode;
     private Spell inkPow, monadoPurge, jab;
     private final int APP_W = 1000;
     private final int APP_H = 700;
-    private Card squid;
+    private Card aori, inkling;
+    ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        window = primaryStage;
+        rootNode = new Group();
+        scene = new Scene(rootNode, APP_W, APP_H);
+
         generateSpells();
+        generateSpellSets();
         createCards();
 
-        window = primaryStage;
-        root = new Group();
-        scene = new Scene(root, APP_W, APP_H);
-
-
-
-        squid.generateCard(root);
-        scene.getStylesheets().addAll("StyleSheet.css");
+        scene.getStylesheets().add("StyleSheet.css");
         window.setScene(scene);
         //window.setFullScreen(true);
         window.show();
@@ -44,6 +43,18 @@ public class Graphics extends Application{
         monadoPurge = new Spell("Monado Purge", 30, 1);
     }
 
+    private void generateSpellSets() {
+        spellSet1 = new ArrayList<>();
+        spellSet2 = new ArrayList<>();
+        spellSet3 = new ArrayList<>();
+        spellSet4 = new ArrayList<>();
+
+        spellSet1.add(inkPow);
+
+        spellSet2.add(jab);
+        spellSet2.add(inkPow);
+    }
+
     /*
     Här lägger du till Spell objektet inkpow i arrayListan.
     varje Spell objekt har en metod du kan kalla på getInfo()
@@ -53,9 +64,12 @@ public class Graphics extends Application{
     kommer sedan kallas för att sätta in Labels i VBox
      */
     private void createCards() {
-        ArrayList<Spell> squidSpells = new ArrayList<Spell>();
-        squidSpells.add(inkPow);
-        Image squidPng = new Image("images/splat.png");
-        squid = new Card(squidPng, "Aori", 70, squidSpells);
+        Image aoriPng = new Image("images/splat.png");
+        aori = new Card(aoriPng, "Aori", 70, spellSet1);
+        aori.generateCard(rootNode);
+
+        Image inklingPng = new Image("images/squidGirl.png");
+        inkling = new Card(inklingPng, "Inkling", 60, spellSet2);
+        inkling.generateCard(rootNode);
     }
 }
