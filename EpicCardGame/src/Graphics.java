@@ -29,7 +29,10 @@ public class Graphics extends Application{
         root = new Group();
         scene = new Scene(root, APP_W, APP_H);
 
+
+
         squid.generateCard(root);
+        scene.getStylesheets().addAll("StyleSheet.css");
         window.setScene(scene);
         //window.setFullScreen(true);
         window.show();
@@ -41,6 +44,14 @@ public class Graphics extends Application{
         monadoPurge = new Spell("Monado Purge", 30, 1);
     }
 
+    /*
+    Här lägger du till Spell objektet inkpow i arrayListan.
+    varje Spell objekt har en metod du kan kalla på getInfo()
+    som returnerar ett Label objekt med info om spellen.
+    anropa denna i Card klassen för att lägga in alla Labels i
+    en separat arraylist. Denna arrayList som innehåller alla labels
+    kommer sedan kallas för att sätta in Labels i VBox
+     */
     private void createCards() {
         ArrayList<Spell> squidSpells = new ArrayList<Spell>();
         squidSpells.add(inkPow);
