@@ -1,5 +1,3 @@
-package main;
-
-public enum Type {	
+public enum Type {
     DARK, MACHINE, JUSTICE, CUTE;
 }
