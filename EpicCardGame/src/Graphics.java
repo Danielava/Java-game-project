@@ -13,8 +13,7 @@ public class Graphics extends Application{
 
     private Stage window;
     private Scene scene;
-    private Group rootNode;
-    private Spell inkPow, monadoPurge, jab;
+    private Group root;
 
     /*
         These two app_w & h will be important to keep
@@ -32,8 +31,8 @@ public class Graphics extends Application{
 
     //constructor
     public Graphics() {
-        myDeck = new Deck();
-        opponentDeck = new Deck();
+        myDeck = new Deck(400, 400);
+        opponentDeck = new Deck(20, 20);
         allCards = new ArrayList<Card>();
 
         spellSet1 = new ArrayList<>();
@@ -45,14 +44,13 @@ public class Graphics extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
-        rootNode = new Group();
-        scene = new Scene(rootNode, app_w, app_h);
+        root = new Group();
+        scene = new Scene(root, app_w, app_h);
 
-
-        generateSpells();
         generateSpellSets();
         createCards();
         generateDeck();
+        drawDeck();
 
         scene.getStylesheets().add("StyleSheet.css");
         window.setScene(scene);
@@ -68,17 +66,11 @@ public class Graphics extends Application{
         return app_h;
     }
 
-    private void generateSpells() {
-        inkPow = new Spell("Inkpow", 30, 3); //Inkpow does 30 damage
-        jab = new Spell("Jab", 20, 2);
-        monadoPurge = new Spell("Monado Purge", 30, 1);
-    }
-
     private void generateSpellSets() {
-        spellSet1.add(inkPow);
+        spellSet1.add(new Spell("Calamari Song", 30, 3));
 
-        spellSet2.add(jab);
-        spellSet2.add(inkPow);
+        spellSet2.add(new Spell("Inkpow", 30, 1));
+        spellSet2.add(new Spell("Zapper", 20, 2));
     }
 
     /*
@@ -92,11 +84,11 @@ public class Graphics extends Application{
     private void createCards() {
         Image aoriPng = new Image("images/splat.png");
         aori = new Card(aoriPng, "Aori", 70, spellSet1);
-        aori.generateCard(rootNode);
+        //aori.generateCard(rootNode);
 
         Image inklingPng = new Image("images/squidGirl.png");
         inkling = new Card(inklingPng, "Inkling", 60, spellSet2);
-        inkling.generateCard(rootNode);
+        //inkling.generateCard(rootNode);
 
         //just put all cards into the allCard arrayList.
         allCards.add(aori);
@@ -105,5 +97,18 @@ public class Graphics extends Application{
 
     private void generateDeck() {
         myDeck.add(aori);
+        myDeck.add(inkling);
+
+        opponentDeck.add(aori);
+    }
+
+    /*
+    Make it so that the Deck class drawDeck method takes
+    care of the drawing on canvas,
+    by making a call to the generateCard method in Card class
+     */
+    private void drawDeck() {
+        myDeck.drawDeck(root);
+        opponentDeck.drawDeck(root);
     }
 }
