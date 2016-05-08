@@ -33,6 +33,8 @@ public class Card {
         the card is flipped. card being flipped means that you only see the
         back of it which is identical to each card. When the card is put into your hand
         flip is set to false meaning that you will be able to see the cards.
+
+        use this variable in your game loop to check if the card is flipped or not.
     */
     private boolean flip;
 
@@ -58,9 +60,13 @@ public class Card {
         return flip;
     }
 
+    public void flipCard() {
+        flip = false;
+    }
+
     /**
      * Another help method used to put the spellInfo in
-     * the form of labels, into the VBox.
+     * the form of Strings, into the VBox.
      * @param card The card you wish to add the info to.
      */
 
@@ -101,7 +107,7 @@ public class Card {
         iv.prefWidth(100);
 
         iv.setFitHeight(100 * 1.6);
-        iv.setFitWidth(110 * 1.6);
+        iv.setFitWidth(100 * 1.6);
 
         /*
         The card background color is set based on its Type
@@ -110,7 +116,6 @@ public class Card {
         card.getChildren().addAll(iv); //add the card name first then its image
         generateSpell(card); //adds the spells to this VBox
 
-
         /*
         Fix this so that the cards are put into the deck and not in the root directly
          */
@@ -118,4 +123,5 @@ public class Card {
 
         return card;
     }
+
 }
