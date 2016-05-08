@@ -24,6 +24,7 @@ public class Graphics extends Application{
     private int app_w = 1000; //witdh
     private int app_h = 700;  //height
 
+    private Spell spell1, spell2, spell3;
     private Card aori, inkling;
     private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
     private Deck myDeck, opponentDeck;
@@ -47,8 +48,9 @@ public class Graphics extends Application{
         root = new Group();
         scene = new Scene(root, app_w, app_h);
 
-        generateSpellSets();
         createCards();
+        createSpells();
+        generateSpellSets();
         generateDeck();
         drawDeck();
 
@@ -66,11 +68,20 @@ public class Graphics extends Application{
         return app_h;
     }
 
-    private void generateSpellSets() {
-        spellSet1.add(new Spell("Calamari Song", 30, 3));
+    private void createSpells() {
+        spell1 = new Spell("Calamari Song", 30, 3);
+        spell2 = new Spell("Inkpow", 30, 1);
+        spell3 = new Spell("Zapper", 20, 2);
+    }
 
-        spellSet2.add(new Spell("Inkpow", 30, 1));
-        spellSet2.add(new Spell("Zapper", 20, 2));
+    private void generateSpellSets() {
+        addSpell(spellSet1, spell1);
+
+        addSpell(spellSet2, spell2);
+        addSpell(spellSet2, spell3);
+    }
+    private void addSpell(ArrayList<Spell> list,Spell spell) {
+        list.add(new Spell(spell.getName(), spell.getPower(), spell.getDiceNumber()));
     }
 
     /*
@@ -83,11 +94,11 @@ public class Graphics extends Application{
      */
     private void createCards() {
         Image aoriPng = new Image("images/splat.png");
-        aori = new Card(aoriPng, "Aori", 70, spellSet1);
+        aori = new Card(aoriPng, "Aori", 70, spellSet1, Type.CUTE);
         //aori.generateCard(rootNode);
 
         Image inklingPng = new Image("images/squidGirl.png");
-        inkling = new Card(inklingPng, "Inkling", 60, spellSet2);
+        inkling = new Card(inklingPng, "Squid-chan", 60, spellSet2, Type.BAD);
         //inkling.generateCard(rootNode);
 
         //just put all cards into the allCard arrayList.
@@ -95,6 +106,9 @@ public class Graphics extends Application{
         allCards.add(inkling);
     }
 
+    /*
+    PROBLEM SOLVED!
+     */
     private void generateDeck() {
         myDeck.add(aori);
         myDeck.add(inkling);
