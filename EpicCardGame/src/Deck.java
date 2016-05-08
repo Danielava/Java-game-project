@@ -47,7 +47,8 @@ public class Deck {
 	 * @param card you wanna add
      */
 	public void add(Card card) {
-		deck.add(card);
+
+		deck.add(new Card(card.getImage(), card.getName(), card.getHealth(), card.getSpells(), card.getType()));
 	}
 
 	/**
