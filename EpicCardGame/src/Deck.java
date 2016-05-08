@@ -20,12 +20,13 @@ public class Deck {
 	The X and Y position set is needed to distinquish your
 	and opponent deck.
 	 */
-	private int deckPosX, deckPosY;
+	private final int DECKPOSX, DECKPOSY;
 
 
 	public Deck(int posX, int posY) {
 		deck = new ArrayList<Card>();
-
+		DECKPOSX = posX;
+		DECKPOSY = posY;
 	}
 
 	/**
@@ -35,9 +36,6 @@ public class Deck {
 	 */
 	public void draw() {
 		int amount = deck.size();
-
-
-
 	}
 
 	/**
@@ -45,7 +43,7 @@ public class Deck {
 	 * @param card you wanna add
      */
 	public void add(Card card) {
-
+		deck.add(card);
 	}
 
 	/**
@@ -60,8 +58,16 @@ public class Deck {
 	 * so that you can visually see how many cards there are
 	 * in the deck etc
 	 */
-	//this should be in the gameLoop
+	//should not be in the game loop. only draw deck once
 	public void drawDeck() {
+		int x = DECKPOSX;
+		int y = DECKPOSY;
 
+		for(Card c : deck) {
+			c.setPos(x, y);
+			c.draw();
+			x += 3;
+			y += 3;
+		}
 	}
 }
