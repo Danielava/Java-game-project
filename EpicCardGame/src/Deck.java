@@ -13,11 +13,11 @@ import java.util.*;
  */
 
 public class Deck {
-	private ArrayList<Card> cards;
+	private ArrayList<Card> deck;
 	private final int deckSize = 20;
 	
 	public Deck() {
-
+		deck = new ArrayList<Card>();
 	}
 
 	/**
@@ -26,6 +26,9 @@ public class Deck {
 	 * remove function.
 	 */
 	public void draw() {
+		int amount = deck.size();
+
+
 
 	}
 
@@ -37,6 +40,21 @@ public class Deck {
 
 	}
 
+	/**
+	 * return the deck size
+	 */
+	public int getSize() {
+		return deck.size();
+	}
 
+	/**
+	 * Draws the deck on the screen in a cool way
+	 * so that you can visually see how many cards there are
+	 * in the deck etc
+	 */
+	//this should be in the gameLoop
+	public void drawDeck() {
+
+	}
 
 }
