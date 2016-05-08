@@ -18,8 +18,21 @@ public class Graphics extends Application{
     private final int APP_W = 1000;
     private final int APP_H = 700;
     private Card aori, inkling;
-    ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
+    private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
+    private Deck myDeck, opponentDeck;
+    private ArrayList<Card> allCards;
 
+    //constructor
+    public Graphics() {
+        myDeck = new Deck();
+        opponentDeck = new Deck();
+        allCards = new ArrayList<Card>();
+
+        spellSet1 = new ArrayList<>();
+        spellSet2 = new ArrayList<>();
+        spellSet3 = new ArrayList<>();
+        spellSet4 = new ArrayList<>();
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -27,9 +40,11 @@ public class Graphics extends Application{
         rootNode = new Group();
         scene = new Scene(rootNode, APP_W, APP_H);
 
+
         generateSpells();
         generateSpellSets();
         createCards();
+        generateDeck();
 
         scene.getStylesheets().add("StyleSheet.css");
         window.setScene(scene);
@@ -44,11 +59,6 @@ public class Graphics extends Application{
     }
 
     private void generateSpellSets() {
-        spellSet1 = new ArrayList<>();
-        spellSet2 = new ArrayList<>();
-        spellSet3 = new ArrayList<>();
-        spellSet4 = new ArrayList<>();
-
         spellSet1.add(inkPow);
 
         spellSet2.add(jab);
@@ -71,5 +81,13 @@ public class Graphics extends Application{
         Image inklingPng = new Image("images/squidGirl.png");
         inkling = new Card(inklingPng, "Inkling", 60, spellSet2);
         inkling.generateCard(rootNode);
+
+        //just put all cards into the allCard arrayList.
+        allCards.add(aori);
+        allCards.add(inkling);
+    }
+
+    private void generateDeck() {
+        myDeck.add(aori);
     }
 }
