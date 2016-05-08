@@ -16,7 +16,8 @@ public class Hand {
 	 * Makes so all cards in hand is sorted in a row at the bottom of the screen.
 	 * The trick is to but them in a Hbox.
 	 */
-	public void sort() {
+	//this method should be called in the gameLoop.
+	public void draw() {
 
 	}
 }
