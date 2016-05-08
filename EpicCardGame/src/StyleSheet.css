@@ -10,9 +10,22 @@ I vboxen funkar all kod
     -fx-border-color: #000000;
     -fx-border-width: 2px;
     -fx-padding: 10;
-    -fx-spacing: 8;
+    -fx-spacing: 5;
 }
 
-.label {
-    -fx-font-size: 40px;
+.vboxName {
+    -fx-font-style: oblique;
+}
+
+.vboxImage {
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+}
+
+.vboxSpell {
+    -fx-border-color: #000000;
+    -fx-font-weight: bold;
+    -fx-border-width: 2px;
+    -fx-spacing: 5;
+    -fx-padding: 2;
 }
