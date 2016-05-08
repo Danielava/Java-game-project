@@ -1,4 +1,6 @@
-import java.util.*;
+import javafx.scene.Group;
+
+import java.util.ArrayList;
 
 /**
  * The deck class is a object that's
@@ -10,6 +12,8 @@ import java.util.*;
  * be inside a deck in a set order but when you draw one card,
  * it will randomly pick one from the deck, making it look like
  * the deck is shuffled
+ *
+ * make it so that the deck draws the card
  */
 
 public class Deck {
@@ -59,13 +63,13 @@ public class Deck {
 	 * in the deck etc
 	 */
 	//should not be in the game loop. only draw deck once
-	public void drawDeck() {
+	public void drawDeck(Group root) {
 		int x = DECKPOSX;
 		int y = DECKPOSY;
 
 		for(Card c : deck) {
 			c.setPos(x, y);
-			c.draw();
+			c.generateCard(root);
 			x += 3;
 			y += 3;
 		}
