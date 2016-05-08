@@ -94,7 +94,12 @@ public class Card {
     }
 
     public ArrayList<Spell> getSpells() {
-        return spells;
+        ArrayList<Spell> list = new ArrayList<>();
+        
+        for(Spell s : spells) {
+            list.add(new Spell(s.getName(), s.getPower(), s.getDiceNumber()));
+        }
+        return list;
     }
 
     public boolean getFlip() {
@@ -194,8 +199,6 @@ public class Card {
         if(type == Type.TALENTED) {
             card.setStyle("-fx-background-color: linear-gradient(#d52242, #d59ca8, #76d585)");
         }
-
-
 
         /*
         Fix this so that the cards are put into the deck and not in the root directly
