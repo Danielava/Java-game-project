@@ -23,11 +23,14 @@ public class Card {
 
     private String name;
     private ArrayList<Spell> spells;
-    private int health;
+    private final int HEALTH;
+    private int currentHp;
     private Image image; //loads the image
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
     private int posX, posY;
+
+    private final Type type;
 
     /*
         when each card is created it's flip = true, which means that
@@ -39,7 +42,9 @@ public class Card {
     */
     private boolean flip;
 
-    public Card(Image png, String name, int hp, ArrayList<Spell> spells) {
+    public Card(Image png, String name, int hp, ArrayList<Spell> spells, Type t) {
+
+        type = t;
 
         posX = 0;
         posY = 0;
@@ -50,9 +55,18 @@ public class Card {
         iv = new ImageView();
         this.name = name;
         this.spells = spells;
-        health = hp;
+        HEALTH = hp;
+        currentHp = hp;
         iv.setImage(image);
         //getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public Type getType() {
+        return type;
     }
 
     //förstör kortet
@@ -77,6 +91,10 @@ public class Card {
 
     }
 
+    public ArrayList<Spell> getSpells() {
+        return spells;
+    }
+
     public boolean getFlip() {
         return flip;
     }
@@ -99,6 +117,7 @@ public class Card {
         for (Spell s : spells) {
             //spellInfo.add(s.getInfo());
             card.getChildren().add(s.getInfo());
+
         }
 
     }
@@ -109,7 +128,7 @@ public class Card {
     }
 
     public int getHealth() {
-        return health;
+        return HEALTH;
     }
 
     /*
@@ -138,6 +157,29 @@ public class Card {
 
         card.getChildren().addAll(iv); //add the card name first then its image
         generateSpell(card); //adds the spells to this VBox
+
+        //sets card Color based on type
+        if(type.equals(Type.BAD)) {
+
+        }
+
+        if(type.equals(Type.HAPPY)) {
+
+        }
+
+        if(type.equals(Type.BRAVE)) {
+
+        }
+
+        if(type.equals(Type.CUTE)) {
+            card.setStyle("-fx-background-color: linear-gradient(#d52242, #d59ca8)");
+        }
+
+        if(type == Type.TALENTED) {
+            card.setStyle("-fx-background-color: linear-gradient(#d52242, #d59ca8, #76d585)");
+        }
+
+
 
         /*
         Fix this so that the cards are put into the deck and not in the root directly
