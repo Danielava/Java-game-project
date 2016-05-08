@@ -1,6 +1,18 @@
+.root {
+    -fx-background-color: #d59ca8;
+    -fx-font-size: 12px;
+}
+
+/*
+I vboxen funkar all kod
+*/
 .vbox {
-    -fx-border-color: #2e8b57;
+    -fx-border-color: #000000;
     -fx-border-width: 2px;
     -fx-padding: 10;
     -fx-spacing: 8;
+}
+
+.label {
+    -fx-font-size: 40px;
 }
