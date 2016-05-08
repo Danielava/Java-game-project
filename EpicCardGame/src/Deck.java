@@ -15,9 +15,17 @@ import java.util.*;
 public class Deck {
 	private ArrayList<Card> deck;
 	private final int deckSize = 20;
-	
-	public Deck() {
+	/*
+	These variables sets the X and Y position of the deck.
+	The X and Y position set is needed to distinquish your
+	and opponent deck.
+	 */
+	private int deckPosX, deckPosY;
+
+
+	public Deck(int posX, int posY) {
 		deck = new ArrayList<Card>();
+
 	}
 
 	/**
@@ -56,5 +64,4 @@ public class Deck {
 	public void drawDeck() {
 
 	}
-
 }
