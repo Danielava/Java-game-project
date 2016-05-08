@@ -27,6 +27,7 @@ public class Card {
     private Image image; //loads the image
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
+    private int posX, posY;
 
     /*
         when each card is created it's flip = true, which means that
@@ -39,6 +40,9 @@ public class Card {
     private boolean flip;
 
     public Card(Image png, String name, int hp, ArrayList<Spell> spells) {
+
+        posX = 0;
+        posY = 0;
 
         flip = true;
 
@@ -56,6 +60,23 @@ public class Card {
 
     }
 
+    public void setPosX(int x) {
+        posX = x;
+    }
+
+    public void setPosY(int y) {
+        posY = y;
+    }
+
+    public void setPos(int x, int y) {
+        posX = x;
+        posY = y;
+    }
+
+    public void draw() {
+
+    }
+
     public boolean getFlip() {
         return flip;
     }
@@ -69,7 +90,6 @@ public class Card {
      * the form of Strings, into the VBox.
      * @param card The card you wish to add the info to.
      */
-
     private void generateSpell(VBox card) {
 
         spellInfo = new ArrayList<Label>();
@@ -108,6 +128,9 @@ public class Card {
 
         iv.setFitHeight(100 * 1.6);
         iv.setFitWidth(100 * 1.6);
+
+        card.setTranslateX(posX);
+        card.setTranslateY(posY);
 
         /*
         The card background color is set based on its Type
