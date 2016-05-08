@@ -21,13 +21,14 @@ import java.util.ArrayList;
  */
 public class Card {
 
-    private String name;
+    private String nameString;
     private ArrayList<Spell> spells;
     private final int HEALTH;
     private int currentHp;
     private Image image; //loads the image
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
+    private Label name;
     private int posX, posY;
 
     private final Type type;
@@ -53,7 +54,8 @@ public class Card {
 
         image = png;
         iv = new ImageView();
-        this.name = name;
+        nameString = name;
+        this.name = new Label(name);
         this.spells = spells;
         HEALTH = hp;
         currentHp = hp;
@@ -124,7 +126,7 @@ public class Card {
 
 
     public String getName() {
-        return name;
+        return nameString;
     }
 
     public int getHealth() {
@@ -138,7 +140,15 @@ public class Card {
 	To then draw this on the canvas you will write in code: root.getChildren.add(card1.generateCard());
 	 */
     public VBox generateCard(Group root) {
+
         VBox card = new VBox();
+
+        VBox cardName = new VBox();
+        VBox cardImage = new VBox();
+        VBox cardSpells = new VBox();
+
+        cardName.getChildren().addAll(name);
+        cardName.getStyleClass().addAll("vboxName");
 
         card.getStyleClass().addAll("vbox");
 
@@ -148,6 +158,13 @@ public class Card {
         iv.setFitHeight(100 * 1.6);
         iv.setFitWidth(100 * 1.6);
 
+        cardImage.getChildren().addAll(iv);
+        cardImage.getStyleClass().addAll("vboxImage");
+
+        generateSpell(cardSpells); //adds the spells to this vbox
+        cardSpells.getStyleClass().addAll("vboxSpell");
+
+
         card.setTranslateX(posX);
         card.setTranslateY(posY);
 
@@ -155,8 +172,7 @@ public class Card {
         The card background color is set based on its Type
          */
 
-        card.getChildren().addAll(iv); //add the card name first then its image
-        generateSpell(card); //adds the spells to this VBox
+        card.getChildren().addAll(cardName, cardImage, cardSpells); //add the card name first then its image
 
         //sets card Color based on type
         if(type.equals(Type.BAD)) {
