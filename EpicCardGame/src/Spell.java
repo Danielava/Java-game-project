@@ -41,13 +41,14 @@ public class Spell {
     }
 
     /**
-     * Genererar info om attacken och sätter denna info
-     * i ett label objekt
+     * Generates info about the attack and puts it into
+     * a label object. Then the text is styles with css.
      */
     private void generateInfo() {
         //vår string med info
-        String attackInfo = diceNumber + " - " + name;
+        String attackInfo = diceNumber + " - " + name + " " + attackPower;
         label = new Label(attackInfo);
+
     }
 
     /**
