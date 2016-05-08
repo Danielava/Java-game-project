@@ -15,8 +15,16 @@ public class Graphics extends Application{
     private Scene scene;
     private Group rootNode;
     private Spell inkPow, monadoPurge, jab;
-    private final int APP_W = 1000;
-    private final int APP_H = 700;
+
+    /*
+        These two app_w & h will be important to keep
+        track of when changing window size.
+        The program graphic will be set with
+        these in mind.
+     */
+    private int app_w = 1000; //witdh
+    private int app_h = 700;  //height
+
     private Card aori, inkling;
     private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
     private Deck myDeck, opponentDeck;
@@ -38,7 +46,7 @@ public class Graphics extends Application{
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         rootNode = new Group();
-        scene = new Scene(rootNode, APP_W, APP_H);
+        scene = new Scene(rootNode, app_w, app_h);
 
 
         generateSpells();
@@ -50,6 +58,14 @@ public class Graphics extends Application{
         window.setScene(scene);
         //window.setFullScreen(true);
         window.show();
+    }
+
+    public int getWidth() {
+        return app_w;
+    }
+
+    public int getHeight() {
+        return app_h;
     }
 
     private void generateSpells() {
