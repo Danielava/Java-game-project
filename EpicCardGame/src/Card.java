@@ -33,6 +33,8 @@ public class Card {
     private Label name;
     private int posX, posY;
 
+    Group root;
+
     private final Type type;
 
     /*
@@ -47,6 +49,7 @@ public class Card {
 
     public Card(Image png, String name, int hp, ArrayList<Spell> spells, Type t) {
 
+        root = new Group();
         type = t;
 
         posX = 0;
@@ -148,6 +151,7 @@ public class Card {
 	 */
     public void generateCard(Group root) {
 
+        this.root = root;
         card = new VBox();
 
         //change this to change maxsize of card
@@ -208,7 +212,6 @@ public class Card {
         /*
         Fix this so that the cards are put into the deck and not in the root directly
          */
-        root.getChildren().addAll(card);
     }
 
     /**
@@ -216,6 +219,14 @@ public class Card {
      */
     public VBox getVBoxCard() {
         return card;
+    }
+
+    /**
+     * Call this method to draw the card on the screen.
+     * make it visible
+     */
+    public void show() {
+        root.getChildren().addAll(card);
     }
 
 }
