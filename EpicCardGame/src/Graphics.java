@@ -14,6 +14,7 @@ public class Graphics extends Application{
     private Stage window;
     private Scene scene;
     private Group root;
+    private GameLoopUser game;
 
     /*
         These two app_w & h will be important to keep
@@ -28,12 +29,15 @@ public class Graphics extends Application{
     private Card aori, inkling;
     private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
     private Deck myDeck, opponentDeck;
+    private Hand myHand, opponentHand;
     private ArrayList<Card> allCards;
 
     //constructor
     public Graphics() {
-        myDeck = new Deck(400, 400);
-        opponentDeck = new Deck(20, 20);
+
+        root = new Group();
+        myDeck = new Deck(400, 400, myHand, root);
+        opponentDeck = new Deck(20, 20, opponentHand, root);
         allCards = new ArrayList<Card>();
 
         spellSet1 = new ArrayList<>();
@@ -44,9 +48,13 @@ public class Graphics extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         window = primaryStage;
-        root = new Group();
         scene = new Scene(root, app_w, app_h);
+
+        //initiate the game loop
+        game = new GameLoopUser(myDeck, scene);
+
 
         createCards();
         createSpells();
@@ -58,6 +66,8 @@ public class Graphics extends Application{
         window.setScene(scene);
         //window.setFullScreen(true);
         window.show();
+        game.startGame();
+
     }
 
     public int getWidth() {
@@ -122,7 +132,7 @@ public class Graphics extends Application{
     by making a call to the generateCard method in Card class
      */
     private void drawDeck() {
-        myDeck.drawDeck(root);
-        opponentDeck.drawDeck(root);
+        myDeck.drawDeck();
+        opponentDeck.drawDeck();
     }
 }
