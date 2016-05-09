@@ -29,3 +29,8 @@ I vboxen funkar all kod
     -fx-spacing: 5;
     -fx-padding: 2;
 }
+
+.vboxDummy {
+    -fx-border-color: #000000;
+    -fx-border-width: 2px;
+}
