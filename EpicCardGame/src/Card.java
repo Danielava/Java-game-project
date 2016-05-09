@@ -33,6 +33,8 @@ public class Card {
     private Label name;
     private int posX, posY;
 
+
+
     Group root;
 
     private final Type type;
@@ -46,6 +48,8 @@ public class Card {
         use this variable in your game loop to check if the card is flipped or not.
     */
     private boolean flip;
+    private Image dummyImage;
+    private ImageView dummyIv;
 
     public Card(Image png, String name, int hp, ArrayList<Spell> spells, Type t) {
 
@@ -55,7 +59,11 @@ public class Card {
         posX = 0;
         posY = 0;
 
-        flip = true;
+        flip = false;
+
+        dummyImage = new Image("images/dummy.png");
+        dummyIv = new ImageView();
+        dummyIv.setImage(dummyImage);
 
         image = png;
         iv = new ImageView();
@@ -65,6 +73,7 @@ public class Card {
         HEALTH = hp;
         currentHp = hp;
         iv.setImage(image);
+
         //getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
     }
 
@@ -112,7 +121,7 @@ public class Card {
     }
 
     public void flipCard() {
-        flip = false;
+        flip = true;
     }
 
     /**
@@ -152,10 +161,36 @@ public class Card {
     public void generateCard(Group root) {
 
         this.root = root;
-        card = new VBox();
+        root.getChildren().remove(card);
 
-        //change this to change maxsize of card
+
+        card = new VBox();
+        //These are not perfect sizes for the card imo.
+        /*
+        GOOD TO REMEMBER: LATER WHEN YOU HAVE NO CARDS IN DECK YOU CAN SET THESE
+        VARIABELS TO 0 TO MAKE THE HBOX DECK DISAPPEAR!!!
+         */
         card.setMinHeight(300);
+        card.setMinWidth(188);
+
+        //if flip variable is true we are gonna draw something else on it (a dummy image)
+        //making it look like the card is flipped, occurs when it's in deck
+        /*
+        CURRENTLY BUGGY!!
+         */
+        if(flip == false) {
+            card.getStyleClass().add("vboxDummy");
+
+            dummyIv.setFitHeight(card.getMinHeight());
+            dummyIv.setFitWidth(card.getMinWidth());
+
+            card.getChildren().add(dummyIv);
+            System.out.println(card.getMinHeight());
+
+            card.setTranslateX(posX);
+            card.setTranslateY(posY);
+            return;
+        }
 
         VBox cardName = new VBox();
         VBox cardImage = new VBox();
@@ -178,7 +213,7 @@ public class Card {
         generateSpell(cardSpells); //adds the spells to this vbox
         cardSpells.getStyleClass().addAll("vboxSpell");
 
-
+        //sätter position på VBox
         card.setTranslateX(posX);
         card.setTranslateY(posY);
 
@@ -226,7 +261,15 @@ public class Card {
      * make it visible
      */
     public void show() {
-        root.getChildren().addAll(card);
+        root.getChildren().add(card);
     }
+
+    public Group getRoot() {
+        return root;
+    }
+
+    /**
+     * This method will handle the event when clicking on the card
+     */
 
 }
