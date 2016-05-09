@@ -28,14 +28,14 @@ public class GameLoopUser{
 
     public void startGame() {
 
-        scene.getOnKeyPressed();
+        //scene.getOnKeyPressed();
 
         new AnimationTimer() {
 
             @Override
             public void handle(long time) {
 
-
+                myDeck.deckEvent(); //the deck event draws a card when you click on deck
 
 
             }

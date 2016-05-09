@@ -72,7 +72,7 @@ public class Deck {
 		Card card = deck.get(nr);
 		deck.remove(nr);
 
-		hand.add(card);
+		hand.add(card); //adds card to hand
 	}
 
 	/**
@@ -129,15 +129,14 @@ public class Deck {
 
 		//gör clickEvent för kortet överst i högen.
 		Card currentCard = deck.get(deckSize);
-
 		//när musen klickar på detta kort kommer draw metoden köras
 		VBox current = currentCard.getVBoxCard();
+
 		current.setOnMouseClicked(e -> {
 			//only draw card if you have less than MAX(5) in hand
 			if(hand.getCardsInHand() < hand.MAX) {
 				draw(); //a random card from Deck is put in hand
 				drawDeck(); //an updated deck is now drawn on screen
-				System.out.println(deck.size());
 			}
 		});
 	}
