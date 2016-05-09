@@ -36,6 +36,10 @@ public class Graphics extends Application{
     public Graphics() {
 
         root = new Group();
+
+        myHand = new Hand();
+        opponentHand = new Hand();
+
         myDeck = new Deck(400, 400, myHand, root);
         opponentDeck = new Deck(20, 20, opponentHand, root);
         allCards = new ArrayList<Card>();
@@ -64,7 +68,7 @@ public class Graphics extends Application{
 
         scene.getStylesheets().add("StyleSheet.css");
         window.setScene(scene);
-        //window.setFullScreen(true);
+        window.setFullScreen(true);
         window.show();
         game.startGame();
 
