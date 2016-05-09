@@ -24,8 +24,8 @@ I vboxen funkar all kod
 
 .vboxSpell {
     -fx-border-color: #000000;
-    -fx-font-weight: bold;
-    -fx-border-width: 2px;
+    -fx-font-weight: lighter;
+    -fx-border-width: 1px;
     -fx-spacing: 5;
     -fx-padding: 2;
 }
