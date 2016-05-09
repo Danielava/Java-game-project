@@ -21,6 +21,8 @@ import java.util.ArrayList;
  */
 public class Card {
 
+    private VBox card;
+
     private String nameString;
     private ArrayList<Spell> spells;
     private final int HEALTH;
@@ -95,7 +97,7 @@ public class Card {
 
     public ArrayList<Spell> getSpells() {
         ArrayList<Spell> list = new ArrayList<>();
-        
+
         for(Spell s : spells) {
             list.add(new Spell(s.getName(), s.getPower(), s.getDiceNumber()));
         }
@@ -144,9 +146,12 @@ public class Card {
 	image under, and spells under that etc.
 	To then draw this on the canvas you will write in code: root.getChildren.add(card1.generateCard());
 	 */
-    public VBox generateCard(Group root) {
+    public void generateCard(Group root) {
 
-        VBox card = new VBox();
+        card = new VBox();
+
+        //change this to change maxsize of card
+        card.setMinHeight(300);
 
         VBox cardName = new VBox();
         VBox cardImage = new VBox();
@@ -181,30 +186,35 @@ public class Card {
 
         //sets card Color based on type
         if(type.equals(Type.BAD)) {
-
+            card.setStyle("-fx-background-color: linear-gradient(#707070, #e9e9e9)");
         }
 
         if(type.equals(Type.HAPPY)) {
-
+            card.setStyle("-fx-background-color: linear-gradient(#0f7f31, #50d5c7)");
         }
 
         if(type.equals(Type.BRAVE)) {
-
+            card.setStyle("-fx-background-color: linear-gradient(rgb(70, 70, 70), #2b6fd5)");
         }
 
         if(type.equals(Type.CUTE)) {
-            card.setStyle("-fx-background-color: linear-gradient(#d52242, #d59ca8)");
+            card.setStyle("-fx-background-color: linear-gradient(#d55a79, #d595a9, #d53e6f)");
         }
 
         if(type == Type.TALENTED) {
-            card.setStyle("-fx-background-color: linear-gradient(#d52242, #d59ca8, #76d585)");
+            card.setStyle("-fx-background-color: linear-gradient(#d50717, #d55917)");
         }
 
         /*
         Fix this so that the cards are put into the deck and not in the root directly
          */
         root.getChildren().addAll(card);
+    }
 
+    /**
+     * This method returns the VBox containing the card
+     */
+    public VBox getVBoxCard() {
         return card;
     }
 
