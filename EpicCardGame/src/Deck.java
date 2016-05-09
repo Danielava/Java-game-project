@@ -1,4 +1,5 @@
 import javafx.scene.Group;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -40,7 +41,7 @@ public class Deck {
 	 * @param hand
      */
 	public Deck(int posX, int posY, Hand hand, Group root) {
-		hand = new Hand();
+		this.hand = hand;
 		this.root = root;
 
 		rnd = new Random();
@@ -58,8 +59,9 @@ public class Deck {
 	 * draws a card randomly from the deck
 	 * and puts it in your hand. It's basicly like a
 	 * remove function.
+	 * Used as a helper in the DeckEvent method.
 	 */
-	public void draw() {
+	private void draw() {
 		int amount = deck.size();
 
 		if(amount == 0) {
@@ -94,7 +96,7 @@ public class Deck {
 	 * so that you can visually see how many cards there are
 	 * in the deck etc
 	 */
-	//should be updated in gameLoop whenever a card is drawn.
+	//should be updated whenever a card is drawn.
 	public void drawDeck() {
 
 		int x = DECKPOSX;
@@ -107,5 +109,36 @@ public class Deck {
 			x += 3;
 			y += 3;
 		}
+	}
+
+	/**
+	 * should handle events when clicking on deck!
+	 * dvs one card is taken from Deck and put into Hand.
+	 * Remember that this method won't work if you have five or
+	 * more cards in hand.
+	 */
+	//event method
+	//sätt denna i loopen.
+	public void deckEvent() {
+		int deckSize = deck.size() - 1;
+
+		//prevents nullpointer exception
+		if (deckSize < 0) {
+			return;
+		}
+
+		//gör clickEvent för kortet överst i högen.
+		Card currentCard = deck.get(deckSize);
+
+		//när musen klickar på detta kort kommer draw metoden köras
+		VBox current = currentCard.getVBoxCard();
+		current.setOnMouseClicked(e -> {
+			//only draw card if you have less than MAX(5) in hand
+			if(hand.getCardsInHand() < hand.MAX) {
+				draw(); //a random card from Deck is put in hand
+				drawDeck(); //an updated deck is now drawn on screen
+				System.out.println(deck.size());
+			}
+		});
 	}
 }
