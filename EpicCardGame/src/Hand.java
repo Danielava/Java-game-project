@@ -11,6 +11,7 @@ public class Hand {
 	public final int MAX = 5; //Amount of cards to be able to hold
 	private ArrayList<Card> hand;
 	private int xPos, yPos;
+	private final int SCREENWIDTH = 1252;
 
 	private HBox mainBox; //the box where hand is held
 
@@ -46,13 +47,13 @@ public class Hand {
 	 */
 
 	/**
-	 * Makes so all cards in hand is sorted in a row at the bottom of the screen.
-	 * The trick is to put them in a Hbox.
+	 * The method "draws" the picked card on the screen.
+	 * But that's all it does, use the sort method to
+	 * sort it beautifully in the hand.
 	 */
 	/*
 		GLÖM EJ ATT BYTA KORTETS X OCH Y POSITION TILL BOXEN
 	*/
-	//this method should be called in the gameLoop.
 	public void drawVisuals() {
 		for(Card c : hand) {
 			c.flipCard();
@@ -60,11 +61,41 @@ public class Hand {
 			VBox card = c.getVBoxCard(); //ger dendär bakgrunden
 			//experiment with these variables to put in hand.
 			//write a good algorithm.
-			card.setTranslateY(100);
-			card.setTranslateX(100);
 
+			sort();
 			mainBox.getChildren().add(card);
 			c.show();
 		}
 	}
+
+	/**
+	 * The method will define cards x & y position
+	 * in your hand and adjust these based on how
+	 * many cards there are in you hand.
+	 */
+	//this should be called in the game loop.
+	/*
+	Write like an algorithm that will decide the card position based on
+	card width and screen width.
+	 */
+	public void sort() {
+
+		int cardAmount = hand.size(); //current cards in hand
+		int cardGap = 100; //cardGap
+
+		int value = (cardAmount*130)/2; //change this value to change position of hand
+
+		int handPosition = SCREENWIDTH/2 + value;
+		handPosition -= cardGap*cardAmount;
+
+		for(Card c : hand) {
+
+			VBox card = c.getVBoxCard();
+			card.setTranslateY(700); //perfekt rör ej.
+			card.setTranslateX(handPosition);
+			handPosition += cardGap;
+		}
+
+	}
+
 }
