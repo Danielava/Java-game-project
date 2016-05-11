@@ -2,8 +2,10 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -22,8 +24,13 @@ public class Graphics extends Application{
         The program graphic will be set with
         these in mind.
      */
-    private int app_w = 1000; //witdh
-    private int app_h = 700;  //height
+
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    double width = screenSize.getWidth();
+    double height = screenSize.getHeight();
+
+    private int app_w = 1100; //witdh
+    private int app_h = 750;  //height
 
     private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3;
     private Card aori, inkling, camilla, octoling;
@@ -32,15 +39,20 @@ public class Graphics extends Application{
     private Hand myHand, opponentHand;
     private ArrayList<Card> allCards;
 
+    private Scale scale;
+
     //constructor
     public Graphics() {
+
+        System.out.println(width);
+        System.out.println(height);
 
         root = new Group();
 
         myHand = new Hand();
         opponentHand = new Hand();
 
-        myDeck = new Deck(1224, 573, myHand, root);
+        myDeck = new Deck(width * 0.852, height * 0.635, myHand, root);
         opponentDeck = new Deck(20, 20, opponentHand, root);
         allCards = new ArrayList<Card>();
 
@@ -48,6 +60,8 @@ public class Graphics extends Application{
         spellSet2 = new ArrayList<>();
         spellSet3 = new ArrayList<>();
         spellSet4 = new ArrayList<>();
+
+        scale = new Scale();
     }
 
     @Override
@@ -56,9 +70,10 @@ public class Graphics extends Application{
         window = primaryStage;
         scene = new Scene(root, app_w, app_h);
 
+        scene.getRoot().getTransforms().setAll(scale);
+
         //initiate the game loop
         game = new GameLoopUser(myDeck, scene);
-
 
         createCards();
         createSpells();
