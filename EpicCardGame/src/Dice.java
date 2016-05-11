@@ -1,3 +1,14 @@
+import java.util.Random;
+import java.util.ArrayList;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+/**
+ * This class will create a dice on the screen.
+ * Click on the dice to roll it and then you will be able to perform
+ * your move.
+ */
 /**
  * This class will create a dice on the screen.
  * Click on the dice to roll it and then you will be able to perform
