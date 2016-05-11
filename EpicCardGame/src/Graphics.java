@@ -25,8 +25,8 @@ public class Graphics extends Application{
     private int app_w = 1000; //witdh
     private int app_h = 700;  //height
 
-    private Spell spell1, spell2, spell3, camSpell1, camSpell2;
-    private Card aori, inkling, camilla;
+    private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3;
+    private Card aori, inkling, camilla, octoling;
     private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
@@ -90,7 +90,9 @@ public class Graphics extends Application{
 
         camSpell1 = new Spell("Galeforce", 40, 4);
 
-
+        octoSpell1 = new Spell("Epic atk", 20, 1);
+        octoSpell2 = new Spell("Sea slash", 20, 5);
+        octoSpell3 = new Spell("Splattack", 30, 6);
     }
 
     private void generateSpellSets() {
@@ -100,7 +102,12 @@ public class Graphics extends Application{
         addSpell(spellSet2, spell3);
 
         addSpell(spellSet3, camSpell1);
+
+        addSpell(spellSet4, octoSpell1);
+        addSpell(spellSet4, octoSpell2);
+        addSpell(spellSet4, octoSpell3);
     }
+
     private void addSpell(ArrayList<Spell> list,Spell spell) {
         list.add(new Spell(spell.getName(), spell.getPower(), spell.getDiceNumber()));
     }
@@ -125,10 +132,14 @@ public class Graphics extends Application{
         Image camillaPng = new Image("images/camilla.png");
         camilla = new Card(camillaPng, "Camilla", 90, spellSet3, Type.BRAVE);
 
+        Image octolingPng = new Image("images/octoling.png");
+        octoling = new Card(octolingPng, "Elite octoling", 70, spellSet4, Type.TALENT);
+
         //just put all cards into the allCard arrayList. not very necessary
         allCards.add(aori);
         allCards.add(inkling);
         allCards.add(camilla);
+        allCards.add(octoling);
     }
 
     /*
@@ -141,6 +152,7 @@ public class Graphics extends Application{
         myDeck.add(aori);
         myDeck.add(inkling);
         myDeck.add(camilla);
+        myDeck.add(octoling);
 
         opponentDeck.add(aori);
     }
