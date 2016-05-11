@@ -13,5 +13,5 @@
 
 //type BAD is more like badass/cool. not bad as in evil..
 public enum Type {
-    HAPPY, BAD, BRAVE, CUTE, TALENTED
+    HAPPY, BAD, BRAVE, CUTE, TALENT
 }
