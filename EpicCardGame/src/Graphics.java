@@ -84,8 +84,11 @@ public class Graphics extends Application{
 
     private void createSpells() {
         spell1 = new Spell("Calamari Song", 30, 3);
+
         spell2 = new Spell("Inkpow", 30, 1);
         spell3 = new Spell("Zapper", 20, 2);
+
+
     }
 
     private void generateSpellSets() {
@@ -115,13 +118,16 @@ public class Graphics extends Application{
         inkling = new Card(inklingPng, "Squid-chan", 60, spellSet2, Type.BAD);
         //inkling.generateCard(rootNode);
 
-        //just put all cards into the allCard arrayList.
+        //just put all cards into the allCard arrayList. not very necessary
         allCards.add(aori);
         allCards.add(inkling);
     }
 
     /*
     PROBLEM SOLVED!
+     */
+    /**
+     * Generate the two decks here
      */
     private void generateDeck() {
         myDeck.add(aori);
