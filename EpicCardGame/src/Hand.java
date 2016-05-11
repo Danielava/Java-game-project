@@ -89,9 +89,9 @@ public class Hand {
 	public void sort() {
 
 		int cardAmount = hand.size(); //current cards in hand
-		int cardGap = 100; //cardGap
+		int cardGap = 130; //cardGap
 
-		int value = (cardAmount*130)/2; //change this value to change position of hand
+		int value = (cardAmount*162)/2; //change this value to change position of hand
 
 		int handPosition = SCREENWIDTH/2 + value;
 		handPosition -= cardGap*cardAmount;
@@ -122,12 +122,15 @@ public class Hand {
 			//mouseEvent här
 			card.setOnMouseEntered(e -> {
 				card.setTranslateY(newPosition); //ändrar kortets position när du håller på kortet.
-
-				System.out.println(card.getTranslateZ());
+				card.toFront();
 			});
 
 			card.setOnMouseExited(e -> {
 				card.setTranslateY(oldPosition); //drar tillbaka kortets position när du tar bort.
+				for(Card d : hand) {
+					VBox dc = d.getVBoxCard();
+					dc.toFront();
+				}
 			});
 		}
 	}
