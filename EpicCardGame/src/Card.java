@@ -188,7 +188,6 @@ public class Card {
             dummyIv.setFitWidth(card.getMinWidth());
 
             card.getChildren().add(dummyIv);
-            System.out.println(card.getMinHeight());
 
             card.setTranslateX(posX);
             card.setTranslateY(posY);
