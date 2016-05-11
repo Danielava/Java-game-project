@@ -140,4 +140,11 @@ public class Deck {
 			}
 		});
 	}
+
+	/**
+	 * The class returns the hand associated with the deck.
+     */
+	public Hand getHand() {
+		return hand;
+	}
 }
