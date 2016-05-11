@@ -25,8 +25,8 @@ public class Graphics extends Application{
     private int app_w = 1000; //witdh
     private int app_h = 700;  //height
 
-    private Spell spell1, spell2, spell3;
-    private Card aori, inkling;
+    private Spell spell1, spell2, spell3, camSpell1, camSpell2;
+    private Card aori, inkling, camilla;
     private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
@@ -40,7 +40,7 @@ public class Graphics extends Application{
         myHand = new Hand();
         opponentHand = new Hand();
 
-        myDeck = new Deck(400, 400, myHand, root);
+        myDeck = new Deck(1224, 573, myHand, root);
         opponentDeck = new Deck(20, 20, opponentHand, root);
         allCards = new ArrayList<Card>();
 
@@ -88,6 +88,8 @@ public class Graphics extends Application{
         spell2 = new Spell("Inkpow", 30, 1);
         spell3 = new Spell("Zapper", 20, 2);
 
+        camSpell1 = new Spell("Galeforce", 40, 4);
+
 
     }
 
@@ -96,6 +98,8 @@ public class Graphics extends Application{
 
         addSpell(spellSet2, spell2);
         addSpell(spellSet2, spell3);
+
+        addSpell(spellSet3, camSpell1);
     }
     private void addSpell(ArrayList<Spell> list,Spell spell) {
         list.add(new Spell(spell.getName(), spell.getPower(), spell.getDiceNumber()));
@@ -118,9 +122,13 @@ public class Graphics extends Application{
         inkling = new Card(inklingPng, "Squid-chan", 60, spellSet2, Type.BAD);
         //inkling.generateCard(rootNode);
 
+        Image camillaPng = new Image("images/camilla.png");
+        camilla = new Card(camillaPng, "Camilla", 90, spellSet3, Type.BRAVE);
+
         //just put all cards into the allCard arrayList. not very necessary
         allCards.add(aori);
         allCards.add(inkling);
+        allCards.add(camilla);
     }
 
     /*
@@ -132,6 +140,7 @@ public class Graphics extends Application{
     private void generateDeck() {
         myDeck.add(aori);
         myDeck.add(inkling);
+        myDeck.add(camilla);
 
         opponentDeck.add(aori);
     }
