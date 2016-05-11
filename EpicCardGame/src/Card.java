@@ -233,14 +233,14 @@ public class Card {
         }
 
         if(type.equals(Type.BRAVE)) {
-            card.setStyle("-fx-background-color: linear-gradient(rgb(70, 70, 70), #2b6fd5)");
+            card.setStyle("-fx-background-color: linear-gradient(rgb(209, 209, 209), #2b6fd5)");
         }
 
         if(type.equals(Type.CUTE)) {
             card.setStyle("-fx-background-color: linear-gradient(#d55a79, #d595a9, #d53e6f)");
         }
 
-        if(type == Type.TALENTED) {
+        if(type == Type.TALENT) {
             card.setStyle("-fx-background-color: linear-gradient(#d50717, #d55917)");
         }
 
