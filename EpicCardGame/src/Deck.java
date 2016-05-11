@@ -106,8 +106,8 @@ public class Deck {
 			c.setPos(x, y);
 			c.generateCard(root);
 			c.show();
-			x += 3;
-			y += 3;
+			x += 2;
+			y += 2;
 		}
 	}
 
