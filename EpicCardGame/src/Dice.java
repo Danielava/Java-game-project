@@ -23,4 +23,14 @@ public class Dice {
 		}
 		return array;
 	}
+	public void displayDiceRolling() {
+		AnimatedImage dice = new AnimatedImage();
+		Image[] imageArray = new Image[diceRolls];
+		for (int i = 0; i < diceRolls; i++) {
+		    imageArray[i] = new Image( "dice" + i + ".png" );
+		    
+		}
+		dice.frames = imageArray;
+		dice.duration = 0.500;
+	}
 }
