@@ -16,11 +16,13 @@ public class GameLoopUser{
 
     private Deck myDeck;
     private Scene scene;
+    private Hand myHand;
 
     //constructor
     public GameLoopUser(Deck deck, Scene scene) {
         myDeck = deck;
         this.scene = scene;
+        myHand = myDeck.getHand();
     }
 
 
@@ -34,10 +36,8 @@ public class GameLoopUser{
 
             @Override
             public void handle(long time) {
-
                 myDeck.deckEvent(); //the deck event draws a card when you click on deck
-
-
+                myHand.handEvent(); //
             }
 
 
