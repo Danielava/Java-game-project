@@ -33,6 +33,9 @@ public class Card {
     private Label name;
     private int posX, posY;
 
+    private final int CARDHEIGHT = 300;
+    private final int CARDWIDTH = 180;
+
 
 
     Group root;
@@ -170,8 +173,8 @@ public class Card {
         GOOD TO REMEMBER: LATER WHEN YOU HAVE NO CARDS IN DECK YOU CAN SET THESE
         VARIABELS TO 0 TO MAKE THE HBOX DECK DISAPPEAR!!!
          */
-        card.setMinHeight(300);
-        card.setMinWidth(188);
+        card.setMinHeight(CARDHEIGHT);
+        card.setMinWidth(CARDWIDTH);
 
         //if flip variable is true we are gonna draw something else on it (a dummy image)
         //making it look like the card is flipped, occurs when it's in deck
@@ -247,6 +250,14 @@ public class Card {
         /*
         Fix this so that the cards are put into the deck and not in the root directly
          */
+    }
+
+    public int getCardHeigth() {
+        return CARDHEIGHT;
+    }
+
+    public int getCardWidth() {
+        return CARDWIDTH;
     }
 
     /**
