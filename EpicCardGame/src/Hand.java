@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Hand {
 	public final int MAX = 5; //Amount of cards to be able to hold
-	private ArrayList<Card> hand;
+	private ArrayList<Card> hand; //alla kort i handen ligger här.
 	private int xPos, yPos;
 	private final int SCREENWIDTH = 1252;
 
@@ -32,6 +32,14 @@ public class Hand {
 		}
 		hand.add(card);
 		drawVisuals();
+	}
+
+	/**
+	 * Adds desired card from hand to the board
+	 */
+	//BASICALLY THE REMOVE FUNCTION
+	public void addToBoard() {
+
 	}
 
 	/**
@@ -73,7 +81,7 @@ public class Hand {
 	 * in your hand and adjust these based on how
 	 * many cards there are in you hand.
 	 */
-	//this should be called in the game loop.
+	//should be called whenever you add or remove a card from the hand.
 	/*
 	Write like an algorithm that will decide the card position based on
 	card width and screen width.
@@ -89,7 +97,6 @@ public class Hand {
 		handPosition -= cardGap*cardAmount;
 
 		for(Card c : hand) {
-
 			VBox card = c.getVBoxCard();
 			card.setTranslateY(700); //perfekt rör ej.
 			card.setTranslateX(handPosition);
@@ -98,4 +105,30 @@ public class Hand {
 
 	}
 
+	/**
+	 * The handEvent should be called inside the game loop.
+	 * This method makes it so that whenever you hold the mouse on
+	 * a card, that card should visually move up a little bit so you can
+	 * see all its spells etc.
+	 */
+	//put this in game loop
+	public void handEvent() {
+		int newPosition = 600;
+		int oldPosition = 700;
+
+		for(Card c : hand) {
+			VBox card = c.getVBoxCard();
+
+			//mouseEvent här
+			card.setOnMouseEntered(e -> {
+				card.setTranslateY(newPosition); //ändrar kortets position när du håller på kortet.
+
+				System.out.println(card.getTranslateZ());
+			});
+
+			card.setOnMouseExited(e -> {
+				card.setTranslateY(oldPosition); //drar tillbaka kortets position när du tar bort.
+			});
+		}
+	}
 }
