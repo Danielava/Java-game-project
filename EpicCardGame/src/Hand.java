@@ -11,15 +11,21 @@ public class Hand {
 	public final int MAX = 5; //Amount of cards to be able to hold
 	private ArrayList<Card> hand; //alla kort i handen ligger här.
 	private int xPos, yPos;
-	private final int SCREENWIDTH = 1252;
+	private double screenWidth, screenHeight;
+	private Board board;
 
 	private HBox mainBox; //the box where hand is held
 
-	public Hand() {
+	public Hand(double screenWidth, double screenHeight) {
+
+		this.screenWidth = screenWidth;
+		this.screenHeight = screenHeight;
 		hand = new ArrayList<Card>();
 		mainBox = new HBox();
 		mainBox.setTranslateX(0);
 		mainBox.setTranslateY(0);
+
+		board = new Board(1, 1, this);
 	}
 
 	/**
@@ -38,8 +44,15 @@ public class Hand {
 	 * Adds desired card from hand to the board
 	 */
 	//BASICALLY THE REMOVE FUNCTION
-	public void addToBoard() {
+	//should be put in the game loop.
+	public void addToBoard(Card card) {
+		board.add(card); //adds the card to board
+		/*
+		Kör generateCard i Board classen
+		 */
+		hand.remove(card); //remove card from hand
 
+		sort(); //sort again
 	}
 
 	/**
@@ -72,7 +85,7 @@ public class Hand {
 
 			sort();
 			mainBox.getChildren().add(card);
-			c.show();
+			c.show(); //adds card to the root
 		}
 	}
 
@@ -91,14 +104,14 @@ public class Hand {
 		int cardAmount = hand.size(); //current cards in hand
 		int cardGap = 130; //cardGap
 
-		int value = (cardAmount*162)/2; //change this value to change position of hand
+		int value = (cardAmount*cardGap)/2; //change this value to change position of hand
 
-		int handPosition = SCREENWIDTH/2 + value;
-		handPosition -= cardGap*cardAmount;
+		double handPosition = screenWidth/2 + 90; //perfect for sorting hand in middle.
+		handPosition -= cardGap + value;
 
 		for(Card c : hand) {
 			VBox card = c.getVBoxCard();
-			card.setTranslateY(700); //perfekt rör ej.
+			card.setTranslateY(screenHeight - 201); //ändra på denna
 			card.setTranslateX(handPosition);
 			handPosition += cardGap;
 		}
@@ -117,6 +130,7 @@ public class Hand {
 		int oldPosition = 700;
 
 		for(Card c : hand) {
+
 			VBox card = c.getVBoxCard();
 
 			//mouseEvent här
@@ -127,10 +141,19 @@ public class Hand {
 
 			card.setOnMouseExited(e -> {
 				card.setTranslateY(oldPosition); //drar tillbaka kortets position när du tar bort.
+				/*
+				This part puts everything back to normal once mouse is exited.
+				*/
 				for(Card d : hand) {
 					VBox dc = d.getVBoxCard();
-					dc.toFront();
+					dc.toFront(); //this ruins the program.. how to fix?
 				}
+			});
+
+			//when card is clicked
+			card.setOnMouseClicked(e -> {
+				addToBoard(c);
+				c.removeFromScreen();
 			});
 		}
 	}
