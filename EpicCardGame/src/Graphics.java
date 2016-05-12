@@ -26,8 +26,8 @@ public class Graphics extends Application{
      */
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    double width = screenSize.getWidth();
-    double height = screenSize.getHeight();
+    double screenWidth = screenSize.getWidth();
+    double screenHeight = screenSize.getHeight();
 
     private int app_w = 1100; //witdh
     private int app_h = 750;  //height
@@ -44,15 +44,15 @@ public class Graphics extends Application{
     //constructor
     public Graphics() {
 
-        System.out.println(width);
-        System.out.println(height);
+        System.out.println(screenWidth);
+        System.out.println(screenHeight);
 
         root = new Group();
 
-        myHand = new Hand();
-        opponentHand = new Hand();
+        myHand = new Hand(screenWidth, screenHeight, screenHeight - 201);
+        opponentHand = new Hand(screenWidth, screenHeight, 2); //change the third paramether
 
-        myDeck = new Deck(width * 0.852, height * 0.635, myHand, root);
+        myDeck = new Deck(screenWidth * 0.852, screenHeight * 0.635, myHand, root); //sets your deck position based on pc screenSize.
         opponentDeck = new Deck(20, 20, opponentHand, root);
         allCards = new ArrayList<Card>();
 
@@ -83,18 +83,18 @@ public class Graphics extends Application{
 
         scene.getStylesheets().add("StyleSheet.css");
         window.setScene(scene);
-        window.setFullScreen(true);
+        window.setFullScreen(true); //fundamental
         window.show();
         game.startGame();
 
     }
 
-    public int getWidth() {
-        return app_w;
+    public double getScreenWidth() {
+        return screenWidth;
     }
 
-    public int getHeight() {
-        return app_h;
+    public double getScreenHeight() {
+        return screenHeight;
     }
 
     private void createSpells() {
