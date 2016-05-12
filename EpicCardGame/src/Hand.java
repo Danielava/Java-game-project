@@ -13,11 +13,13 @@ public class Hand {
 	private int xPos, yPos;
 	private double screenWidth, screenHeight;
 	private Board board;
+	double handYPosition;
 
 	private HBox mainBox; //the box where hand is held
 
-	public Hand(double screenWidth, double screenHeight) {
+	public Hand(double screenWidth, double screenHeight, double handYPos) {
 
+		handYPosition = handYPos;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
 		hand = new ArrayList<Card>();
@@ -53,6 +55,7 @@ public class Hand {
 		hand.remove(card); //remove card from hand
 
 		sort(); //sort again
+
 		for(Card d : hand) {
 			VBox box = d.getVBoxCard();
 			box.toFront();
@@ -110,14 +113,14 @@ public class Hand {
 
 		int value = (cardAmount*cardGap)/2; //change this value to change position of hand
 
-		double handPosition = screenWidth/2 + 90; //perfect for sorting hand in middle.
-		handPosition -= cardGap + value;
+		double handXPosition = screenWidth/2 + 90; //perfect for sorting hand in middle.
+		handXPosition -= cardGap + value;
 
 		for(Card c : hand) {
 			VBox card = c.getVBoxCard();
-			card.setTranslateY(screenHeight - 201); //ändra på denna
-			card.setTranslateX(handPosition);
-			handPosition += cardGap;
+			card.setTranslateY(handYPosition); //ändra på denna
+			card.setTranslateX(handXPosition);
+			handXPosition += cardGap;
 		}
 
 	}
@@ -130,8 +133,8 @@ public class Hand {
 	 */
 	//put this in game loop
 	public void handEvent() {
-		int newPosition = 600;
-		int oldPosition = 700;
+		double newPosition = handYPosition - 99; //the card position when mouse is helt on it
+		double oldPosition = handYPosition;
 
 		for(Card c : hand) {
 
