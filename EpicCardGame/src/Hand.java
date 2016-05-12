@@ -53,6 +53,10 @@ public class Hand {
 		hand.remove(card); //remove card from hand
 
 		sort(); //sort again
+		for(Card d : hand) {
+			VBox box = d.getVBoxCard();
+			box.toFront();
+		}
 	}
 
 	/**
@@ -145,8 +149,8 @@ public class Hand {
 				This part puts everything back to normal once mouse is exited.
 				*/
 				for(Card d : hand) {
-					VBox dc = d.getVBoxCard();
-					dc.toFront(); //this ruins the program.. how to fix?
+					VBox box = d.getVBoxCard();
+					box.toFront();
 				}
 			});
 
