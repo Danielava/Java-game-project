@@ -99,6 +99,26 @@ public class Board {
         return true;
     }
 
+    /**
+     * Events used for board. when dice is thrown,
+     * cards with matched nr on the board will glow
+     * and you can press on them to attack.
+     *
+     * //You can also throw the cards away if you don't want them
+     * //on your deck. (??)
+     * @param dice
+     */
+    public void boardEvent(Dice dice) {
+        int diceNr = dice.getDiceNumber();
+
+        for(Card c : regularCards)  {
+            ArrayList<Integer> numbers = c.getSpellsDiceNumber();
+            if(numbers.contains(diceNr)) {
+                c.getVBoxCard().getStyleClass().add("vboxGlow");
+            }
+            //c.setDefatulCardStyle(); call this when attack is done.
+        }
+    }
 
     /*
     IDÉ: Varje board objekt har en x,y position. Boardet är där dina kort från handen
