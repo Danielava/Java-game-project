@@ -1,3 +1,4 @@
+import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -13,29 +14,90 @@ public class Board {
     private final int MAX = 3; //maxSize on arrayList.
     private double screenWidth, screenHeight;
     private Hand hand;
-    private VBox board;
+    //our box where the cards are put
+    private double posX, posY;
+    private Group root;
 
     /*
     Position Card[3] kommer tillhöra event korten.
      */
-    private ArrayList<Card> cards; //board can hold a maximum of 3 cards
+    private ArrayList<Card> regularCards; //board can hold a maximum of 2 regular cards
+    private Card eventCard; //board can hold only one event card.
 
-    public Board(double w, double h, Hand hand) {
-        cards = new ArrayList<Card>();
-        board = new VBox();
+    public Board(double w, double h, Hand hand, Group root) {
+        regularCards = new ArrayList<Card>();
         screenHeight = h;
         screenWidth = w;
         this.hand = hand;
+        this.root = root;
     }
 
+
+    /**
+     * Add cards to the board
+     * @param card
+     */
     public void add(Card card) {
-
-        cards.add(card);
-
+        //if selected card is event card then set it to the variable eventCard.
+        if((card.getType() == Type.EVENT) && eventCard == null) {
+            setEventCard(card);
+            return;
+        }
+        regularCards.add(card);
+        drawBoard();
     }
 
+    /**
+     * To draw the board we simply set the position of the cards
+     * defined in the variables regularCards and eventCard.
+     */
     public void drawBoard() {
+        //set these two based on screenWidth & Height properties
+        double x = screenWidth * 0.3;
+        double y = screenHeight * 0.44;
 
+        for(Card c : regularCards) {
+            VBox card = c.getVBoxCard();
+            card.setTranslateX(x);
+            card.setTranslateY(y);
+            if(!root.getChildren().contains(card)) {
+                root.getChildren().addAll(card);
+            }
+            x += 190;
+        }
+
+        if(eventCard != null) {
+            //rita eventkortet
+        }
+    }
+
+    /**
+     * Use this method to set eventCard.
+     * Set to null if you wanna remove it.
+     * @param card
+     */
+    public void setEventCard(Card card) {
+        eventCard = card;
+    }
+
+
+
+
+    /**
+     * Use this method to check if you can put the chosen card in Board
+     * or not. For example if you already have 1 Event card on board, you
+     * can't put another one in there. If you have 2 regular cards on board
+     * you can't put anymore etc..
+     * @return true if you are allowed to place card on board
+     */
+    public boolean check() {
+        if(regularCards.size() >= 2) {
+            return false;
+        }
+        if(eventCard != null) {
+            return false;
+        }
+        return true;
     }
 
 
