@@ -13,5 +13,10 @@
 
 //type BAD is more like badass/cool. not bad as in evil..
 public enum Type {
-    HAPPY, BAD, BRAVE, CUTE, TALENT
+    HAPPY, BAD, BRAVE, CUTE, TALENT, EVENT
 }
+/*
+The last type EVENT is set for Event cards. If the card
+Type is event then the card is one of those perks or activation cards.
+
+ */
