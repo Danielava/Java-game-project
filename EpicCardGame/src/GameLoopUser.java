@@ -19,15 +19,17 @@ public class GameLoopUser {
     private Hand myHand;
     private Group root;
     private Dice dice;
+    private Board board;
     final long startNanoTime = System.nanoTime();
 
     //constructor
-    public GameLoopUser(Deck deck, Scene scene, Group root) {
+    public GameLoopUser(Deck deck, Scene scene, Group root, Dice dice) {
         myDeck = deck;
         this.scene = scene;
         myHand = myDeck.getHand();
         this.root = root;
-        dice = new Dice(root);
+        this.dice = dice;
+        board = myHand.getBoard();
     }
 
     public void startGame() {
@@ -39,9 +41,11 @@ public class GameLoopUser {
             @Override
             public void handle(long time) {
             	double t = ((time - startNanoTime) / 1000000000.0)*2;
-                myDeck.deckEvent(); //the deck event draws a card when you click on deck
+
+                myDeck.deckEvent(); //the deck event draws a card when you click on deck.
                 myHand.handEvent(); //events for player hand.
-                dice.displayDiceRoll(t,root);
+                dice.diceEvent(t); //animates the dice and make it interactive.
+                board.boardEvent(dice); //create board events
             }
 
         }.start();
