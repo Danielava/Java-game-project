@@ -12,7 +12,7 @@ import javafx.scene.Scene;
  * THIS GAME LOOP CLASS IS MEANT FOR THE USER (YOU) ONLY.
  * THIS IS NOT THE AI. SEE THIS AS THE USER INTERFACE
  */
-public class GameLoopUser{
+public class GameLoopUser {
 
     private Deck myDeck;
     private Scene scene;
@@ -25,9 +25,6 @@ public class GameLoopUser{
         myHand = myDeck.getHand();
     }
 
-
-
-
     public void startGame() {
 
         //scene.getOnKeyPressed();
@@ -37,9 +34,8 @@ public class GameLoopUser{
             @Override
             public void handle(long time) {
                 myDeck.deckEvent(); //the deck event draws a card when you click on deck
-                myHand.handEvent(); //
+                myHand.handEvent(); //events for player hand.
             }
-
 
         }.start();
     }
