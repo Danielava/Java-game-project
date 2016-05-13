@@ -29,7 +29,7 @@ public class Deck {
 	The X and Y position set is needed to distinquish your
 	and opponent deck.
 	 */
-	private final int DECKPOSX, DECKPOSY;
+	private final double DECKPOSX, DECKPOSY;
 
 
 	/**
@@ -40,7 +40,7 @@ public class Deck {
 	 * @param posY
 	 * @param hand
      */
-	public Deck(int posX, int posY, Hand hand, Group root) {
+	public Deck(double posX, double posY, Hand hand, Group root) {
 		this.hand = hand;
 		this.root = root;
 
@@ -99,15 +99,15 @@ public class Deck {
 	//should be updated whenever a card is drawn.
 	public void drawDeck() {
 
-		int x = DECKPOSX;
-		int y = DECKPOSY;
+		double x = DECKPOSX;
+		double y = DECKPOSY;
 
 		for(Card c : deck) {
 			c.setPos(x, y);
 			c.generateCard(root);
 			c.show();
-			x += 2;
-			y += 2;
+			x += 3;
+			y += 3;
 		}
 	}
 
