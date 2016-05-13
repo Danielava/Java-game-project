@@ -20,10 +20,10 @@ public class Dice {
 	private double canvasPosX, canvasPosY;
 	private double screenWidth, screenHeight;
 
-	private boolean diceAnimation;
+	private boolean diceThrown;
 	
 	public Dice(Group root, double w, double h){
-		diceAnimation = true;
+		diceThrown = false;
 
 		screenWidth = w;
 		screenHeight = h;
@@ -60,7 +60,7 @@ public class Dice {
 	 * normal. Use this when turn is done.
 	 */
 	public void resetDice() {
-		diceAnimation = true;
+		diceThrown = false;
 	}
 
 	/**
@@ -84,8 +84,8 @@ public class Dice {
 
 		//only when the diceAnimation variable is true can you press on the dice
 			canvas.setOnMousePressed(e -> {
-				if(diceAnimation) {
-					diceAnimation = false;
+				if(!diceThrown) {
+					diceThrown = true;
 					gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 					gc.drawImage(aniImage.getRandomFrame(), canvasPosX, canvasPosY);
 					diceNumber = aniImage.getDiceNumber();
@@ -93,7 +93,7 @@ public class Dice {
 			});
 
 		//stop animation of dice when diceAnimation is false
-		if(diceAnimation)
+		if(!diceThrown)
 			animateDice(time);
 	}
 
