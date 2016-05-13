@@ -32,7 +32,6 @@ public class Board {
         this.root = root;
     }
 
-
     /**
      * Add cards to the board
      * @param card
