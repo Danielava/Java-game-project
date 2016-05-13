@@ -37,6 +37,7 @@ public class Graphics extends Application{
     private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
+    private Dice dice;
     private ArrayList<Card> allCards;
 
     private Scale scale;
@@ -62,6 +63,7 @@ public class Graphics extends Application{
         spellSet4 = new ArrayList<>();
 
         scale = new Scale();
+        dice = new Dice(root, screenWidth, screenHeight);
     }
 
     @Override
@@ -73,7 +75,7 @@ public class Graphics extends Application{
         scene.getRoot().getTransforms().setAll(scale);
 
         //initiate the game loop
-        game = new GameLoopUser(myDeck, scene);
+        game = new GameLoopUser(myDeck, scene, root, dice);
 
         createCards();
         createSpells();
