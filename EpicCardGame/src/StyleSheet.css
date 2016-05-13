@@ -34,3 +34,9 @@ I vboxen funkar all kod
     -fx-border-color: #000000;
     -fx-border-width: 2px;
 }
+
+.vboxGlow {
+    -fx-border-color: #28f33d;
+    -fx-border-width: 2px;
+    -fx-background-color: #d59ca8;
+}
