@@ -49,8 +49,8 @@ public class Graphics extends Application{
 
         root = new Group();
 
-        myHand = new Hand(screenWidth, screenHeight, screenHeight - 201);
-        opponentHand = new Hand(screenWidth, screenHeight, 2); //change the third paramether
+        myHand = new Hand(screenWidth, screenHeight, screenHeight - 201, root);
+        opponentHand = new Hand(screenWidth, screenHeight, 2, root); //change the third paramether
 
         myDeck = new Deck(screenWidth * 0.852, screenHeight * 0.635, myHand, root); //sets your deck position based on pc screenSize.
         opponentDeck = new Deck(20, 20, opponentHand, root);
@@ -87,6 +87,10 @@ public class Graphics extends Application{
         window.show();
         game.startGame();
 
+    }
+
+    public Group getRoot() {
+        return root;
     }
 
     public double getScreenWidth() {
