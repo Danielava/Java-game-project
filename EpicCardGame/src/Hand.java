@@ -77,6 +77,14 @@ public class Hand {
 	 */
 
 	/**
+	 * Returns the board associated with the Hand.
+	 */
+	public Board getBoard() {
+		return board;
+	}
+
+
+	/**
 	 * The method "draws" the picked card on the screen.
 	 * But that's all it does, use the sort method to
 	 * sort it beautifully in the hand.
