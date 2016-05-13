@@ -1,3 +1,4 @@
+import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -15,19 +16,20 @@ public class Hand {
 	private Board board;
 	double handYPosition;
 
-	private HBox mainBox; //the box where hand is held
+	private HBox mainBox; //the box where hand is held !!!NEVER USED!!!
 
-	public Hand(double screenWidth, double screenHeight, double handYPos) {
+	public Hand(double screenWidth, double screenHeight, double handYPos, Group root) {
 
 		handYPosition = handYPos;
 		this.screenWidth = screenWidth;
 		this.screenHeight = screenHeight;
+
 		hand = new ArrayList<Card>();
 		mainBox = new HBox();
 		mainBox.setTranslateX(0);
 		mainBox.setTranslateY(0);
 
-		board = new Board(1, 1, this);
+		board = new Board(screenWidth, screenHeight, this, root);
 	}
 
 	/**
@@ -91,7 +93,7 @@ public class Hand {
 			//write a good algorithm.
 
 			sort();
-			mainBox.getChildren().add(card);
+			mainBox.getChildren().add(card); //THIS IS NEVER USED
 			c.show(); //adds card to the root
 		}
 	}
@@ -142,25 +144,30 @@ public class Hand {
 
 			//mouseEvent här
 			card.setOnMouseEntered(e -> {
-				card.setTranslateY(newPosition); //ändrar kortets position när du håller på kortet.
-				card.toFront();
+				if(hand.contains(c)) {
+					card.setTranslateY(newPosition); //ändrar kortets position när du håller på kortet.
+					card.toFront();
+				}
 			});
 
 			card.setOnMouseExited(e -> {
-				card.setTranslateY(oldPosition); //drar tillbaka kortets position när du tar bort.
+				if(hand.contains(c)) {
+					card.setTranslateY(oldPosition); //drar tillbaka kortets position när du tar bort.
 				/*
 				This part puts everything back to normal once mouse is exited.
 				*/
-				for(Card d : hand) {
-					VBox box = d.getVBoxCard();
-					box.toFront();
+					for (Card d : hand) {
+						VBox box = d.getVBoxCard();
+						box.toFront();
+					}
 				}
 			});
 
 			//when card is clicked
 			card.setOnMouseClicked(e -> {
-				addToBoard(c);
-				c.removeFromScreen();
+				if(board.check() && hand.contains(c)) {
+					addToBoard(c);
+				}
 			});
 		}
 	}
