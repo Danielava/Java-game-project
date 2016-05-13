@@ -281,6 +281,10 @@ public class Card {
 	public int getCurrentHealth() {
     	return currentHp;
     }
+	
+	public void incrementHealth(int hp) {
+    	currentHp = currentHp+hp;
+    }
 
     /**
      * This method will handle the event when clicking on the card
