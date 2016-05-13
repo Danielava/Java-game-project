@@ -1,6 +1,6 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
-
+import javafx.scene.Group;
 /**
  * This is the main GameLoop
  * In here there are some stuff to keep track of.
@@ -17,24 +17,31 @@ public class GameLoopUser {
     private Deck myDeck;
     private Scene scene;
     private Hand myHand;
+    private Group root;
+    private Dice dice;
+    final long startNanoTime = System.nanoTime();
 
     //constructor
-    public GameLoopUser(Deck deck, Scene scene) {
+    public GameLoopUser(Deck deck, Scene scene, Group root) {
         myDeck = deck;
         this.scene = scene;
         myHand = myDeck.getHand();
+        this.root = root;
+        dice = new Dice(root);
     }
 
     public void startGame() {
 
         //scene.getOnKeyPressed();
-
+    	
         new AnimationTimer() {
-
+        	
             @Override
             public void handle(long time) {
+            	double t = ((time - startNanoTime) / 1000000000.0)*2;
                 myDeck.deckEvent(); //the deck event draws a card when you click on deck
                 myHand.handEvent(); //events for player hand.
+                dice.displayDiceRoll(t,root);
             }
 
         }.start();
