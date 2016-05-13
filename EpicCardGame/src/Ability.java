@@ -3,4 +3,5 @@
  * For example some spells might heal etc..
  */
 public class Ability {
+
 }
