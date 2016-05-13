@@ -4,6 +4,9 @@
  */
 public class Ability {
 	
+	//Explains the abilities power
+	private String explanation;
+	private Type vulnerableTarget
 	
 	public void causeEffects(Card target) {
 		if(target == vulnerableTarget)
