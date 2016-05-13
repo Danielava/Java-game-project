@@ -286,6 +286,9 @@ public class Card {
     	currentHp = currentHp+hp;
     }
 
+	public void decrementHealth(int hp) {
+    	currentHp = currentHp-hp;
+    }
     /**
      * This method will handle the event when clicking on the card
      */
