@@ -31,7 +31,7 @@ public class Card {
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
     private Label name;
-    private int posX, posY;
+    private double posX, posY;
 
     private final int CARDHEIGHT = 300;
     private final int CARDWIDTH = 180;
@@ -93,17 +93,22 @@ public class Card {
 
     }
 
-    public void setPosX(int x) {
+    public void setPosX(double x) {
         posX = x;
     }
 
-    public void setPosY(int y) {
+    public void setPosY(double y) {
         posY = y;
     }
 
-    public void setPos(int x, int y) {
+    public void setPos(double x, double y) {
         posX = x;
         posY = y;
+    }
+
+    public void setBoxPos(double x, double y) {
+        card.setTranslateX(x);
+        card.setTranslateY(y);
     }
 
     public void draw() {
@@ -274,6 +279,12 @@ public class Card {
         root.getChildren().add(card);
     }
 
+    public void removeFromScreen() {
+        root.getChildren().remove(card);
+    }
+
+
+
     public Group getRoot() {
         return root;
     }
@@ -281,5 +292,6 @@ public class Card {
     /**
      * This method will handle the event when clicking on the card
      */
+
 
 }
