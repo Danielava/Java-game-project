@@ -31,10 +31,10 @@ public class Card {
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
     private Label name;
-    private int posX, posY;
+    private double posX, posY;
 
-    private final int CARDHEIGHT = 300;
-    private final int CARDWIDTH = 180;
+    private final double CARDHEIGHT = 300;
+    private final double CARDWIDTH = 180;
 
 
 
@@ -93,15 +93,15 @@ public class Card {
 
     }
 
-    public void setPosX(int x) {
+    public void setPosX(double x) {
         posX = x;
     }
 
-    public void setPosY(int y) {
+    public void setPosY(double y) {
         posY = y;
     }
 
-    public void setPos(int x, int y) {
+    public void setPos(double x, double y) {
         posX = x;
         posY = y;
     }
@@ -222,9 +222,19 @@ public class Card {
         /*
         The card background color is set based on its Type
          */
+        setCardStyle();
 
         card.getChildren().addAll(cardName, cardImage, cardSpells); //add the card name first then its image
 
+        /*
+        Fix this so that the cards are put into the deck and not in the root directly
+         */
+    }
+
+    /**
+     * Set the cards style back to default.
+     */
+    public void setCardStyle() {
         //sets card Color based on type
         if(type.equals(Type.BAD)) {
             card.setStyle("-fx-background-color: linear-gradient(#707070, #e9e9e9)");
@@ -245,17 +255,17 @@ public class Card {
         if(type == Type.TALENT) {
             card.setStyle("-fx-background-color: linear-gradient(#d50717, #d55917)");
         }
-
-        /*
-        Fix this so that the cards are put into the deck and not in the root directly
-         */
     }
 
-    public int getCardHeigth() {
+    public void setDefatulCardStyle() {
+        card.getStyleClass().add("vbox");
+    }
+
+    public double getCardHeigth() {
         return CARDHEIGHT;
     }
 
-    public int getCardWidth() {
+    public double getCardWidth() {
         return CARDWIDTH;
     }
 
@@ -293,4 +303,17 @@ public class Card {
      * This method will handle the event when clicking on the card
      */
 
+    /**
+     * gives you a list of spells diceNr.
+     * Use this to highlight cards that match
+     * dice thrown.
+     * @return list with integers
+     */
+    public ArrayList<Integer> getSpellsDiceNumber(){
+        ArrayList<Integer> list = new ArrayList<>();
+        for(Spell s:spells) {
+            list.add(s.getDiceNumber());
+        }
+        return list;
+    }
 }
