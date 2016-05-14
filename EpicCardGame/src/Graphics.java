@@ -17,6 +17,7 @@ public class Graphics extends Application{
     private Scene scene;
     private Group root;
     private GameLoopUser game;
+    private OpponentAI AI;
 
     /*
         These two app_w & h will be important to keep
@@ -32,13 +33,14 @@ public class Graphics extends Application{
     private int app_w = 1100; //witdh
     private int app_h = 750;  //height
 
-    private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3;
-    private Card aori, inkling, camilla, octoling;
-    private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4;
+    private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3, shellSpell1, trueStreamEdge, kraken, jellyDance;
+    private Card aori, inkling, camilla, octoling, octoling2, inkling2, shellfie;
+    private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4, octo2Spell, inkling2Spell, shellfSpell;
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
     private Dice dice;
     private ArrayList<Card> allCards;
+    private boolean yourTurn; //when this is true it means it's currently your turn. The variable will be fundamental to our program.
 
     private Scale scale;
 
@@ -49,21 +51,25 @@ public class Graphics extends Application{
         System.out.println(screenHeight);
 
         root = new Group();
+        dice = new Dice(root, screenWidth, screenHeight);
 
-        myHand = new Hand(screenWidth, screenHeight, screenHeight - 201, root);
-        opponentHand = new Hand(screenWidth, screenHeight, 2, root); //change the third paramether
+        myHand = new Hand(screenWidth, screenHeight, screenHeight - 201, root, dice, false);
+        opponentHand = new Hand(screenWidth, screenHeight, -240, root, dice, true); //change the third paramether
 
-        myDeck = new Deck(screenWidth * 0.852, screenHeight * 0.635, myHand, root); //sets your deck position based on pc screenSize.
-        opponentDeck = new Deck(20, 20, opponentHand, root);
+        myDeck = new Deck(screenWidth * 0.852, screenHeight * 0.635, myHand, root, false); //sets your deck position based on pc screenSize.
+        opponentDeck = new Deck(20, 20, opponentHand, root, true); //hand object goes in here
         allCards = new ArrayList<Card>();
 
         spellSet1 = new ArrayList<>();
         spellSet2 = new ArrayList<>();
         spellSet3 = new ArrayList<>();
         spellSet4 = new ArrayList<>();
+        octo2Spell = new ArrayList<>();
+        inkling2Spell = new ArrayList<>();
+        shellfSpell = new ArrayList<>();
 
         scale = new Scale();
-        dice = new Dice(root, screenWidth, screenHeight);
+        yourTurn = true;
     }
 
     @Override
@@ -75,7 +81,12 @@ public class Graphics extends Application{
         scene.getRoot().getTransforms().setAll(scale);
 
         //initiate the game loop
-        game = new GameLoopUser(myDeck, scene, root, dice);
+        game = new GameLoopUser(myDeck, scene, root, dice, true);
+        AI = new OpponentAI(opponentDeck, scene, root, dice, false);
+
+        //this way these two can communicate
+        game.setNemesis(AI);
+        AI.setNemesis(game);
 
         createCards();
         createSpells();
@@ -87,8 +98,8 @@ public class Graphics extends Application{
         window.setScene(scene);
         window.setFullScreen(true); //fundamental
         window.show();
-        game.startGame();
-
+        game.startGame(); //starts your game
+        AI.start(); //starts the AI
     }
 
     public Group getRoot() {
@@ -111,9 +122,16 @@ public class Graphics extends Application{
 
         camSpell1 = new Spell("Galeforce", 40, 4);
 
-        octoSpell1 = new Spell("Epic atk", 20, 1);
+        octoSpell1 = new Spell("Stream edge", 20, 1);
         octoSpell2 = new Spell("Sea slash", 20, 5);
         octoSpell3 = new Spell("Splattack", 30, 6);
+
+        shellSpell1 = new Spell("Mic drop", 30, 4);
+        jellyDance = new Spell("Jelly dance", 20, 3);
+
+        trueStreamEdge = new Spell("True Stream edge", 50, 6);
+
+        kraken = new Spell("Kraken", 20, 5);
     }
 
     private void generateSpellSets() {
@@ -127,6 +145,14 @@ public class Graphics extends Application{
         addSpell(spellSet4, octoSpell1);
         addSpell(spellSet4, octoSpell2);
         addSpell(spellSet4, octoSpell3);
+
+        addSpell(inkling2Spell, spell2);
+        addSpell(inkling2Spell, kraken);
+
+        addSpell(octo2Spell, trueStreamEdge);
+
+        addSpell(shellfSpell, shellSpell1);
+        addSpell(shellfSpell, jellyDance);
     }
 
     private void addSpell(ArrayList<Spell> list,Spell spell) {
@@ -143,24 +169,36 @@ public class Graphics extends Application{
      */
     private void createCards() {
         Image aoriPng = new Image("images/splat.png");
-        aori = new Card(aoriPng, "Aori", 70, spellSet1, Type.CUTE);
+        aori = new Card(aoriPng, "Aori", 50, spellSet1, Type.CUTE);
         //aori.generateCard(rootNode);
 
         Image inklingPng = new Image("images/squidGirl.png");
-        inkling = new Card(inklingPng, "Squid-chan", 60, spellSet2, Type.BAD);
+        inkling = new Card(inklingPng, "Squid-chan", 50, spellSet2, Type.ACTOR);
         //inkling.generateCard(rootNode);
 
         Image camillaPng = new Image("images/camilla.png");
-        camilla = new Card(camillaPng, "Camilla", 90, spellSet3, Type.BRAVE);
+        camilla = new Card(camillaPng, "Camilla", 70, spellSet3, Type.BRAVE);
 
         Image octolingPng = new Image("images/octoling.png");
-        octoling = new Card(octolingPng, "Elite octoling", 70, spellSet4, Type.TALENT);
+        octoling = new Card(octolingPng, "Rookie octoling", 40, spellSet4, Type.TALENT);
+
+        Image inkl2Png = new Image("images/inkl3.png");
+        inkling2 = new Card(inkl2Png, "Inkling", 30, inkling2Spell, Type.RELAXING);
+
+        Image shellfiPng = new Image("images/shellfie.png");
+        shellfie = new Card(shellfiPng, "Shellfie", 40, shellfSpell, Type.HAPPY);
+
+        Image octo2Png = new Image("images/octo2.png");
+        octoling2 = new Card(octo2Png, "Elite octoling", 60, octo2Spell, Type.TALENT);
 
         //just put all cards into the allCard arrayList. not very necessary
         allCards.add(aori);
         allCards.add(inkling);
         allCards.add(camilla);
         allCards.add(octoling);
+        allCards.add(inkling2);
+        allCards.add(shellfie);
+        allCards.add(octoling2);
     }
 
     /*
@@ -174,8 +212,27 @@ public class Graphics extends Application{
         myDeck.add(inkling);
         myDeck.add(camilla);
         myDeck.add(octoling);
+        myDeck.add(inkling2);
+        myDeck.add(shellfie);
+        myDeck.add(octoling2);
 
         opponentDeck.add(aori);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
+        opponentDeck.add(shellfie);
+        opponentDeck.add(inkling2);
     }
 
     /*
@@ -186,5 +243,9 @@ public class Graphics extends Application{
     private void drawDeck() {
         myDeck.drawDeck();
         opponentDeck.drawDeck();
+    }
+
+    public boolean getYourTurn() {
+        return yourTurn;
     }
 }
