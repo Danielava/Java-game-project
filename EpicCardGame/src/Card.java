@@ -24,14 +24,14 @@ public class Card {
     private VBox card;
     private VBox cardHP; //we wanna update this regurarly, that's why it's written here
 
-    private String nameString;
+    private String nameString, hpString;
     private ArrayList<Spell> spells;
     private final int HEALTH;
     private int currentHp;
     private Image image; //loads the image
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
-    private Label name, hp;
+    private Label name, hp, description;
     private double posX, posY;
 
     private final double CARDHEIGHT = 300;
@@ -76,7 +76,8 @@ public class Card {
         this.spells = spells;
         HEALTH = hp;
         currentHp = hp;
-        this.hp = new Label("" + currentHp);
+        this.hp = new Label(currentHp + " ♥");
+
         iv.setImage(image);
 
         //getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
@@ -208,7 +209,7 @@ public class Card {
             return;
         }
 
-        VBox cardName = new VBox();
+        VBox cardName = new VBox(); //cardName will hold both name & hp
         cardHP = new VBox();
         VBox cardImage = new VBox();
         VBox cardSpells = new VBox();
@@ -218,7 +219,6 @@ public class Card {
 
         cardHP.getChildren().addAll(hp);
         cardHP.getStyleClass().addAll("vboxHP");
-
 
         card.getStyleClass().addAll("vbox");
 
@@ -247,7 +247,7 @@ public class Card {
          */
         setCardStyle();
 
-        card.getChildren().addAll(cardName, cardImage, cardSpells); //add the card name first then its image
+        card.getChildren().addAll(cardName, cardImage, cardSpells, cardHP); //add the card name first then its image
 
         /*
         Fix this so that the cards are put into the deck and not in the root directly
@@ -293,8 +293,9 @@ public class Card {
      * Should be called after an attack is done
      */
     public void updateHpOnCard() {
-        hp = new Label("" + currentHp);
-
+        cardHP.getChildren().remove(hp);
+        hp = new Label(currentHp + " ♥");
+        cardHP.getChildren().addAll(hp);
     }
 
 
