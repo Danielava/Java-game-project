@@ -16,7 +16,7 @@ public class Dice {
 	private Canvas canvas;
 	private GraphicsContext gc;
 	private AnimatedImage aniImage;
-	private int diceNumber; //This numb er is between 1-6
+	private int diceNumber; //This number is between 1-6
 	private double canvasPosX, canvasPosY;
 	private double screenWidth, screenHeight;
 
@@ -101,4 +101,11 @@ public class Dice {
 		return diceNumber;
 	}
 
+	public void removeDice() {
+		gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+	}
+
+	public boolean getDiceThrown() {
+		return diceThrown;
+	}
 }
