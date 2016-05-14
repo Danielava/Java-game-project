@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class Card {
 
     private VBox card;
+    private VBox cardHP; //we wanna update this regurarly, that's why it's written here
 
     private String nameString;
     private ArrayList<Spell> spells;
@@ -30,7 +31,7 @@ public class Card {
     private Image image; //loads the image
     private ImageView iv; //creates the visble object
     private ArrayList<Label> spellInfo;
-    private Label name;
+    private Label name, hp;
     private double posX, posY;
 
     private final double CARDHEIGHT = 300;
@@ -75,6 +76,7 @@ public class Card {
         this.spells = spells;
         HEALTH = hp;
         currentHp = hp;
+        this.hp = new Label("" + currentHp);
         iv.setImage(image);
 
         //getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
@@ -207,11 +209,16 @@ public class Card {
         }
 
         VBox cardName = new VBox();
+        cardHP = new VBox();
         VBox cardImage = new VBox();
         VBox cardSpells = new VBox();
 
         cardName.getChildren().addAll(name);
         cardName.getStyleClass().addAll("vboxName");
+
+        cardHP.getChildren().addAll(hp);
+        cardHP.getStyleClass().addAll("vboxHP");
+
 
         card.getStyleClass().addAll("vbox");
 
@@ -280,6 +287,16 @@ public class Card {
             card.setStyle("-fx-background-color: linear-gradient(#67f2ff, #a3ecff)");
         }
     }
+
+    /**
+     * Call this to update Hp description on the card.
+     * Should be called after an attack is done
+     */
+    public void updateHpOnCard() {
+        hp = new Label("" + currentHp);
+
+    }
+
 
     public void setDefatulCardStyle() {
         card.getStyleClass().add("vbox");
