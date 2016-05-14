@@ -7,6 +7,12 @@ import java.util.ArrayList;
 
 public class Chat extends GameLoopChat{
 	
+	private double canvasPosX, canvasPosY;
+	private double screenWidth, screenHeight;
+	private Canvas canvas;
+	private GraphicsContext gc;
+	private String[] texts;
+	
 	public Chat(Group root, double w, double h) {
 		screenWidth = w;
 		screenHeight = h;
