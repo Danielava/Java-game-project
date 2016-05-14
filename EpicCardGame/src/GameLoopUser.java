@@ -1,6 +1,10 @@
 import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
+
+import java.util.ArrayList;
+
 /**
  * This is the main GameLoop
  * In here there are some stuff to keep track of.
@@ -14,22 +18,36 @@ import javafx.scene.Group;
  */
 public class GameLoopUser {
 
+    private Button pressEndTurn; //the button will appear on screen when your turn is done. press it to end your turn.
+    private boolean endTurn;
+
     private Deck myDeck;
     private Scene scene;
     private Hand myHand;
     private Group root;
     private Dice dice;
     private Board board;
-    final long startNanoTime = System.nanoTime();
+    private boolean yourTurn; //your turn if this is true which it is at the beginning
+    final long startNanoTime = System.nanoTime(); //only used for animation
+    private ArrayList<Card> cardsOnBoard;
+
+    private OpponentAI nemesis;
 
     //constructor
-    public GameLoopUser(Deck deck, Scene scene, Group root, Dice dice) {
+    public GameLoopUser(Deck deck, Scene scene, Group root, Dice dice, boolean turn) {
+        pressEndTurn = new Button("END TURN");
+        pressEndTurn.setTranslateX(0);
+        pressEndTurn.setTranslateY(0);
+
         myDeck = deck;
         this.scene = scene;
         myHand = myDeck.getHand();
         this.root = root;
         this.dice = dice;
         board = myHand.getBoard();
+        yourTurn = turn;
+        this.cardsOnBoard = board.cardsOnBoard();
+        endTurn = board.getEndTurn();
     }
 
     public void startGame() {
@@ -37,17 +55,51 @@ public class GameLoopUser {
         //scene.getOnKeyPressed();
     	
         new AnimationTimer() {
-        	
+        	/*
+        	BUG: SÅ FORT DU LÄGGER KORT PÅ BOARD, DVS SÅ FORT GETBOARDACCESS VARIABELN BLIR FALSE SÅ BUGGAR TÄRNINGEN
+        	 */
             @Override
             public void handle(long time) {
             	double t = ((time - startNanoTime) / 1000000000.0)*2;
 
                 myDeck.deckEvent(); //the deck event draws a card when you click on deck.
                 myHand.handEvent(); //events for player hand.
-                dice.diceEvent(t); //animates the dice and make it interactive.
-                board.boardEvent(dice); //create board events
+                //endTurn = board.getEndTurn();
+
+                if(yourTurn == true) {
+                    if (myHand.getBoardAccess() == false || cardsOnBoard.size() == 2) { //when you are done with putting card on board.
+                        dice.diceEvent(t); //animates the dice and make it interactive.
+                    }
+                    if (dice.getDiceThrown()) {
+                        board.boardEventDice(); //create board events
+                    }
+                }
+
+                /*
+                OK så ifall vi inte har någon match efter att tärningen kastats så dyker knappen endTurn upp och du kan avsluta
+                din runda. och om det är din tur.
+                 */
+                if(!board.checkBoardMatch() && !root.getChildren().contains(pressEndTurn) && dice.getDiceThrown() && yourTurn) {
+                    root.getChildren().addAll(pressEndTurn);
+                }
+
+                pressEndTurn.setOnAction(e -> {
+                    nemesis.setYourTurn(true);
+                    yourTurn = false;
+                    root.getChildren().remove(pressEndTurn);
+                    dice.removeDice();
+                });
+
             }
 
         }.start();
+    }
+
+    public void setNemesis(OpponentAI ai) {
+        nemesis = ai;
+    }
+
+    public void setYourTurn(boolean v) {
+        yourTurn = v;
     }
 }
