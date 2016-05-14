@@ -34,4 +34,18 @@ public class Chat extends GameLoopChat{
 			gc.fillText(texts[i],screen.getWidth()/2,screen.getHeight()/2 - i*10);
 		}
 	}
+	
+	/**
+	 * Puts a given text into the first place
+	 * of the texts array, and pushes all of the
+	 * remaining texts one step forward.
+	 * The last text is removed.
+	 * @param 		a short text
+	 */
+	public void storeText(String text) {
+		for (int i = 0; i < texts.length; i++) {
+			texts[i] = texts[i+1];
+		}
+		texts[0] = text;
+	}
 }
