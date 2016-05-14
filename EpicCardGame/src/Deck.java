@@ -24,6 +24,7 @@ public class Deck {
 	private Random rnd;
 	private Hand hand;
 	private Group root;
+	private boolean AI;
 	/*
 	These variables sets the X and Y position of the deck.
 	The X and Y position set is needed to distinquish your
@@ -40,9 +41,10 @@ public class Deck {
 	 * @param posY
 	 * @param hand
      */
-	public Deck(double posX, double posY, Hand hand, Group root) {
+	public Deck(double posX, double posY, Hand hand, Group root, boolean AI) {
 		this.hand = hand;
 		this.root = root;
+		this.AI = AI; //the variable is needed when you draw deck
 
 		rnd = new Random();
 		deck = new ArrayList<Card>();
@@ -61,7 +63,7 @@ public class Deck {
 	 * remove function.
 	 * Used as a helper in the DeckEvent method.
 	 */
-	private void draw() {
+	public void draw() {
 		int amount = deck.size();
 
 		if(amount == 0) {
@@ -104,10 +106,16 @@ public class Deck {
 
 		for(Card c : deck) {
 			c.setPos(x, y);
-			c.generateCard(root);
+			if(!AI) {
+				c.generateCard(root, false);
+				x += 2;
+				y += 2;
+			} else {
+				c.generateCard(root, true); //set rotate property to true meaning opponent deck will rotate
+				x +=2;
+				y +=2;
+			}
 			c.show();
-			x += 3;
-			y += 3;
 		}
 	}
 
@@ -139,6 +147,10 @@ public class Deck {
 				drawDeck(); //an updated deck is now drawn on screen
 			}
 		});
+	}
+
+	public ArrayList<Card> getCardsInDeck() {
+		return deck;
 	}
 
 	/**
