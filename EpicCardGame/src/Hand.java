@@ -3,6 +3,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * All cards in the hand should be visible on the lower center of the
@@ -15,10 +16,12 @@ public class Hand {
 	private double screenWidth, screenHeight;
 	private Board board;
 	double handYPosition;
+	private boolean AI; //another AI variable check used in drawHand method
+	private boolean boardAccess; //The variable will be true if you have 2 cards on board or when you have placed one card.
 
 	private HBox mainBox; //the box where hand is held !!!NEVER USED!!!
 
-	public Hand(double screenWidth, double screenHeight, double handYPos, Group root) {
+	public Hand(double screenWidth, double screenHeight, double handYPos, Group root, Dice dice, boolean AI) {
 
 		handYPosition = handYPos;
 		this.screenWidth = screenWidth;
@@ -29,7 +32,9 @@ public class Hand {
 		mainBox.setTranslateX(0);
 		mainBox.setTranslateY(0);
 
-		board = new Board(screenWidth, screenHeight, this, root);
+		this.AI = AI;
+		boardAccess = true;
+		board = new Board(screenWidth, screenHeight, this, root, dice, this.AI);
 	}
 
 	/**
@@ -50,18 +55,27 @@ public class Hand {
 	//BASICALLY THE REMOVE FUNCTION
 	//should be put in the game loop.
 	public void addToBoard(Card card) {
-		board.add(card); //adds the card to board
+		if(board.check() && boardAccess) {
+			board.add(card); //adds the card to board
 		/*
 		Kör generateCard i Board classen
 		 */
-		hand.remove(card); //remove card from hand
+			hand.remove(card); //remove card from hand
 
-		sort(); //sort again
+			sort(); //sort again
 
-		for(Card d : hand) {
-			VBox box = d.getVBoxCard();
-			box.toFront();
+			if (!AI) {
+				for (Card d : hand) {
+					VBox box = d.getVBoxCard();
+					box.toFront();
+				}
+			}
 		}
+		boardAccess = false;
+	}
+
+	public ArrayList<Card> getHand() {
+		return hand;
 	}
 
 	/**
@@ -94,15 +108,58 @@ public class Hand {
 	*/
 	public void drawVisuals() {
 		for(Card c : hand) {
-			c.flipCard();
-			c.generateCard(c.getRoot());
+
+			//Don't flip the card if the AI is playing.
+			if(!AI) {
+				c.flipCard();
+			}
+
+			c.generateCard(c.getRoot(), AI); //setting this to true will flip card.
 			VBox card = c.getVBoxCard(); //ger dendär bakgrunden
+
+			if(AI) {
+				card.setRotate(180 - getRandom()); //rotates the card a little bit random. To make it more realistic
+			}
+
 			//experiment with these variables to put in hand.
 			//write a good algorithm.
 
 			sort();
 			mainBox.getChildren().add(card); //THIS IS NEVER USED
 			c.show(); //adds card to the root
+		}
+	}
+
+	/**
+	 * @return random nr between -10 to 10.
+     */
+	public int getRandom() {
+		Random sign = new Random();
+		Random nr = new Random();
+		int x = sign.nextInt(1);
+		int rnd = nr.nextInt(10);
+
+		if(x == 1) {
+			return rnd*-1;
+		} else {
+			return rnd;
+		}
+	}
+
+	/**
+	 * Returns a number from -3 to 3.
+	 * Use this for your own cards.
+     */
+	public int getLightRandom() {
+		Random sign = new Random();
+		Random nr = new Random();
+		int x = sign.nextInt(1);
+		int rnd = nr.nextInt(3);
+
+		if(x == 1) {
+			return rnd*-1;
+		} else {
+			return rnd;
 		}
 	}
 
@@ -141,7 +198,7 @@ public class Hand {
 	 * a card, that card should visually move up a little bit so you can
 	 * see all its spells etc.
 	 */
-	//put this in game loop
+	//put this in game loop. USER STUFF NOT FOR AI.
 	public void handEvent() {
 		double newPosition = handYPosition - 99; //the card position when mouse is helt on it
 		double oldPosition = handYPosition;
@@ -173,10 +230,24 @@ public class Hand {
 
 			//when card is clicked
 			card.setOnMouseClicked(e -> {
-				if(board.check() && hand.contains(c)) {
+				if(board.check() && hand.contains(c) && boardAccess) {
 					addToBoard(c);
+					boardAccess = false;
 				}
 			});
 		}
+	}
+
+	/**
+	 * The boardAccess variable keeps track so that you can only put
+	 * one card in board at a time.
+	 * @param v
+     */
+	public void setBoardAccess(boolean v) {
+		boardAccess = v;
+	}
+
+	public boolean getBoardAccess() {
+		return boardAccess;
 	}
 }
