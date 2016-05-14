@@ -161,7 +161,7 @@ public class Card {
 	image under, and spells under that etc.
 	To then draw this on the canvas you will write in code: root.getChildren.add(card1.generateCard());
 	 */
-    public void generateCard(Group root) {
+    public void generateCard(Group root, boolean rotate) {
 
         this.root = root;
         root.getChildren().remove(card);
@@ -191,6 +191,18 @@ public class Card {
 
             card.setTranslateX(posX);
             card.setTranslateY(posY);
+
+            //rotate both our and opponent deck
+            /*
+            BRA IDE!! VARJE GÅNG PROGRAMMET STARTAR SÅ SÄTTER VI DECKENS ROTATIONER
+            TILL RANDOM VÄRDEN BLIR MER REALISTISKT DÅ. fixa senare om du har tid
+             */
+            if(rotate) {
+                card.setRotate(200); //56 bra, 224 bra, 200 bra
+            } else {
+                card.setRotate(-18); //36 bra, 26 bra, -18 bra
+            }
+
             return;
         }
 
@@ -219,6 +231,10 @@ public class Card {
         card.setTranslateX(posX);
         card.setTranslateY(posY);
 
+        //här vrider vi på motståndarens hand så den blir spegelvänd
+        if(rotate) {
+            card.setRotate(180);
+        }
         /*
         The card background color is set based on its Type
          */
@@ -254,6 +270,14 @@ public class Card {
 
         if(type == Type.TALENT) {
             card.setStyle("-fx-background-color: linear-gradient(#d50717, #d55917)");
+        }
+
+        if(type == Type.RELAXING) {
+            card.setStyle("-fx-background-color: linear-gradient(#f9ff21, #f4ff8b)");
+        }
+
+        if(type == Type.ACTOR) {
+            card.setStyle("-fx-background-color: linear-gradient(#67f2ff, #a3ecff)");
         }
     }
 
@@ -302,6 +326,10 @@ public class Card {
     /**
      * This method will handle the event when clicking on the card
      */
+
+    public void rotateCard() {
+        card.setRotate(180);
+    }
 
     /**
      * gives you a list of spells diceNr.
