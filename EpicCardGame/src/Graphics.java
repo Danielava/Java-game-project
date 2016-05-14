@@ -38,7 +38,7 @@ public class Graphics extends Application{
     private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4, octo2Spell, inkling2Spell, shellfSpell;
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
-    private Dice dice;
+    private Dice myDice, opponentDice;
     private ArrayList<Card> allCards;
     private boolean yourTurn; //when this is true it means it's currently your turn. The variable will be fundamental to our program.
 
@@ -51,10 +51,11 @@ public class Graphics extends Application{
         System.out.println(screenHeight);
 
         root = new Group();
-        dice = new Dice(root, screenWidth, screenHeight);
+        myDice = new Dice(root, screenWidth, screenHeight, false);
+        opponentDice = new Dice(root, screenWidth, screenHeight, true);
 
-        myHand = new Hand(screenWidth, screenHeight, screenHeight - 201, root, dice, false);
-        opponentHand = new Hand(screenWidth, screenHeight, -240, root, dice, true); //change the third paramether
+        myHand = new Hand(screenWidth, screenHeight, screenHeight - 201, root, myDice, false);
+        opponentHand = new Hand(screenWidth, screenHeight, -240, root, opponentDice, true); //change the third paramether
 
         myDeck = new Deck(screenWidth * 0.852, screenHeight * 0.635, myHand, root, false); //sets your deck position based on pc screenSize.
         opponentDeck = new Deck(20, 20, opponentHand, root, true); //hand object goes in here
@@ -81,8 +82,8 @@ public class Graphics extends Application{
         scene.getRoot().getTransforms().setAll(scale);
 
         //initiate the game loop
-        game = new GameLoopUser(myDeck, scene, root, dice, true);
-        AI = new OpponentAI(opponentDeck, scene, root, dice, false);
+        game = new GameLoopUser(myDeck, scene, root, myDice, true);
+        AI = new OpponentAI(opponentDeck, scene, root, opponentDice, false);
 
         //this way these two can communicate
         game.setNemesis(AI);
