@@ -148,7 +148,7 @@ public class Board {
                 //c.setDefatulCardStyle(); call this when attack is done.
         }
     }
-    
+
     public boolean checkBoardMatch() {
 
         match = false;
