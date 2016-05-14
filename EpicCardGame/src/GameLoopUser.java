@@ -31,6 +31,8 @@ public class GameLoopUser {
     final long startNanoTime = System.nanoTime(); //only used for animation
     private ArrayList<Card> cardsOnBoard;
 
+    private boolean firstTurn; //only true during the first turn
+
     private OpponentAI nemesis;
 
     //constructor
@@ -48,6 +50,7 @@ public class GameLoopUser {
         yourTurn = turn;
         this.cardsOnBoard = board.cardsOnBoard();
         endTurn = board.getEndTurn();
+        firstTurn = true;
     }
 
     public void startGame() {
@@ -66,7 +69,7 @@ public class GameLoopUser {
                 myHand.handEvent(); //events for player hand.
                 //endTurn = board.getEndTurn();
 
-                if(yourTurn == true) {
+                if(yourTurn == true && !firstTurn) {
                     if (myHand.getBoardAccess() == false || cardsOnBoard.size() == 2) { //when you are done with putting card on board.
                         dice.diceEvent(t); //animates the dice and make it interactive.
                     }
@@ -77,17 +80,20 @@ public class GameLoopUser {
 
                 /*
                 OK så ifall vi inte har någon match efter att tärningen kastats så dyker knappen endTurn upp och du kan avsluta
-                din runda. och om det är din tur.
+                din runda. och om det är din tur. Men nu är denna fixad så att du i första rundan endast kan placera ett kort.
                  */
-                if(!board.checkBoardMatch() && !root.getChildren().contains(pressEndTurn) && dice.getDiceThrown() && yourTurn) {
+                if(!board.checkBoardMatch() && !root.getChildren().contains(pressEndTurn) && dice.getDiceThrown() && yourTurn
+                        || firstTurn && !root.getChildren().contains(pressEndTurn) && yourTurn && !myHand.getBoardAccess()) {
                     root.getChildren().addAll(pressEndTurn);
                 }
 
+                //det som händer när du trycker på knappen.
                 pressEndTurn.setOnAction(e -> {
                     nemesis.setYourTurn(true);
                     yourTurn = false;
                     root.getChildren().remove(pressEndTurn);
                     dice.removeDice();
+                    firstTurn = false;
                 });
 
             }
