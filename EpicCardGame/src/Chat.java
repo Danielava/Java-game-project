@@ -28,4 +28,10 @@ public class Chat extends GameLoopChat{
 
 		gc = canvas.getGraphicsContext2D();
 	}
+	
+	public void chatEvent(String text, Dimension screen) {
+		for (int i = 0; i < texts.length; i++) {
+			gc.fillText(texts[i],screen.getWidth()/2,screen.getHeight()/2 - i*10);
+		}
+	}
 }
