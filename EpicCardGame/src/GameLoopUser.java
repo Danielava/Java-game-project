@@ -89,7 +89,9 @@ public class GameLoopUser {
 
                 //det som händer när du trycker på knappen.
                 pressEndTurn.setOnAction(e -> {
-                    nemesis.setYourTurn(true);
+                    nemesis.setYourTurn(true); //fundamental
+                    nemesis.setBoardAccess(true); //fundamental
+
                     yourTurn = false;
                     root.getChildren().remove(pressEndTurn);
                     dice.removeDice();
