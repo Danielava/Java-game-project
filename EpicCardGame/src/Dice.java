@@ -19,10 +19,12 @@ public class Dice {
 	private int diceNumber; //This number is between 1-6
 	private double canvasPosX, canvasPosY;
 	private double screenWidth, screenHeight;
+	private boolean AI;
 
 	private boolean diceThrown;
+	private boolean stopDice;
 	
-	public Dice(Group root, double w, double h){
+	public Dice(Group root, double w, double h, boolean AI){
 		diceThrown = false;
 
 		screenWidth = w;
@@ -39,7 +41,7 @@ public class Dice {
 		canvas.setTranslateY(canvasPosY);
 
 		gc = canvas.getGraphicsContext2D();
-
+		this.AI = AI;
 		aniImage = createDice();
 	}
 
@@ -82,19 +84,32 @@ public class Dice {
 	//FAILED TO SLOW DICE DOWN..
 	public void diceEvent(double time) {
 
-		//only when the diceAnimation variable is true can you press on the dice
+		if(!AI) {
+			//only when the diceAnimation variable is true can you press on the dice
 			canvas.setOnMousePressed(e -> {
-				if(!diceThrown) {
+				if (!diceThrown) {
 					diceThrown = true;
 					gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 					gc.drawImage(aniImage.getRandomFrame(), canvasPosX, canvasPosY);
 					diceNumber = aniImage.getDiceNumber();
 				}
 			});
+		}
+
+		if(AI && stopDice == true && !diceThrown) {
+			diceThrown = true;
+			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+			gc.drawImage(aniImage.getRandomFrame(), canvasPosX, canvasPosY);
+			diceNumber = aniImage.getDiceNumber();
+			}
 
 		//stop animation of dice when diceAnimation is false
 		if(!diceThrown)
 			animateDice(time);
+	}
+
+	public void stopDice() {
+		stopDice = true;
 	}
 
 	public int getDiceNumber() {
