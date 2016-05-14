@@ -30,7 +30,6 @@ public class AnimatedImage
         diceNumber = index + 1;
         return frames[index];
     }
-A
     public int getDiceNumber() {
         return diceNumber;
     }
