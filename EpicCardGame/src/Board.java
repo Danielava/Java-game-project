@@ -17,6 +17,10 @@ public class Board {
     //our box where the cards are put
     private double posX, posY;
     private Group root;
+    private boolean AI;
+    private boolean match, endTurn;
+    private Dice dice;
+
 
     /*
     Position Card[3] kommer tillhöra event korten.
@@ -24,16 +28,21 @@ public class Board {
     private ArrayList<Card> regularCards; //board can hold a maximum of 2 regular cards
     private Card eventCard; //board can hold only one event card.
 
-    public Board(double w, double h, Hand hand, Group root) {
+    public Board(double w, double h, Hand hand, Group root, Dice dice, boolean AI) {
         regularCards = new ArrayList<Card>();
         screenHeight = h;
         screenWidth = w;
         this.hand = hand;
         this.root = root;
+        this.AI = AI;
+        match = false;
+        this.dice = dice;
+        endTurn = false;
     }
 
     /**
-     * Add cards to the board
+     * Add cards to the board.
+     * When a card is added to the board, the dice will appear so you can click on it
      * @param card
      */
     public void add(Card card) {
@@ -43,6 +52,17 @@ public class Board {
             return;
         }
         regularCards.add(card);
+
+        //sätt kortets rotation här:
+        VBox box = card.getVBoxCard();
+        if(!AI) {
+           //box.setRotate(hand.getLightRandom()); //LÄGG TILL DENNA OM DU VILL ATT DINA KORT ROTERAR LITE. TYCKER INTE OM DET PERSONLIGEN
+        }
+        if(AI) {
+            card.flipCard();
+            card.generateCard(root, AI);
+        }
+
         drawBoard();
     }
 
@@ -52,13 +72,22 @@ public class Board {
      */
     public void drawBoard() {
         //set these two based on screenWidth & Height properties
-        double x = screenWidth * 0.3;
-        double y = screenHeight * 0.44;
+        double x, y;
+        if(!AI) {
+            x = screenWidth * 0.3;
+            y = screenHeight * 0.44;
+        } else {
+            x = screenWidth * 0.3;
+            y = screenHeight * 0.09;
+        }
 
         for(Card c : regularCards) {
             VBox card = c.getVBoxCard();
             card.setTranslateX(x);
             card.setTranslateY(y);
+            if(AI) {
+                card.setRotate(180 + hand.getLightRandom()); //ROTATES OPPONENTS CARD. LOOKS KIND OF COOL
+            }
             if(!root.getChildren().contains(card)) {
                 root.getChildren().addAll(card);
             }
@@ -106,20 +135,49 @@ public class Board {
      *
      * //You can also throw the cards away if you don't want them
      * //on your deck. (??)
-     * @param dice
      */
-    public void boardEvent(Dice dice) {
-        int diceNr = dice.getDiceNumber();
+    public void boardEventDice() {
+        int diceNr = dice.getDiceNumber(); //gives rolled dice nr.
 
-        for(Card c : regularCards)  {
+        for (Card c : regularCards) {
             ArrayList<Integer> numbers = c.getSpellsDiceNumber();
-            if(numbers.contains(diceNr)) {
+            if (numbers.contains(diceNr)) {
+                match = true;
+                c.getVBoxCard().getStyleClass().add("vboxGlow");
+            }
+                //c.setDefatulCardStyle(); call this when attack is done.
+        }
+    }
+    
+    public boolean checkBoardMatch() {
+
+        match = false;
+
+        int x = dice.getDiceNumber();
+
+        for (Card c : regularCards) {
+            ArrayList<Integer> nr = c.getSpellsDiceNumber();
+            if (nr.contains(x)) {
+                match = true;
+                System.out.print("");
                 c.getVBoxCard().getStyleClass().add("vboxGlow");
             }
             //c.setDefatulCardStyle(); call this when attack is done.
         }
+        return match;
     }
 
+    public boolean getMatch() {
+        return match;
+    }
+
+    public boolean getEndTurn() {
+        return endTurn;
+    }
+
+    public ArrayList<Card> cardsOnBoard() {
+        return regularCards;
+    }
     /*
     IDÉ: Varje board objekt har en x,y position. Boardet är där dina kort från handen
     placeras. Du har två rutor för dina vanliga attack kort och sedan en ruta för ability kort.
