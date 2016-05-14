@@ -1,11 +1,10 @@
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import java.awt.Dimension;
-import java.util.ArrayList;
 
-public class Chat extends GameLoopChat{
+import java.awt.*;
+
+public class Chat {
 	
 	private double canvasPosX, canvasPosY;
 	private double screenWidth, screenHeight;
@@ -40,7 +39,7 @@ public class Chat extends GameLoopChat{
 	 * of the texts array, and pushes all of the
 	 * remaining texts one step forward.
 	 * The last text is removed.
-	 * @param 		a short text
+	 * @param text 		a short text
 	 */
 	public void storeText(String text) {
 		for (int i = 0; i < texts.length; i++) {
