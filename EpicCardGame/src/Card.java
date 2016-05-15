@@ -37,6 +37,13 @@ public class Card {
     private final double CARDHEIGHT = 300;
     private final double CARDWIDTH = 180;
 
+    /*
+    This variable is set to true at the beginning. Whenever your card uses an attack this will be set to false
+    so the program knows that your card has finished its turn. call the resetAttackStatus() at the end of turn to
+    turn this into true again.
+     */
+    private boolean attackStatus;
+
 
 
     Group root;
@@ -79,6 +86,7 @@ public class Card {
         this.hp = new Label(currentHp + " ♥");
 
         iv.setImage(image);
+        attackStatus = false; //only true when card is glowing
 
         //getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
     }
@@ -113,6 +121,10 @@ public class Card {
 
     }
 
+    /**
+     * Returns a list containing all this cards spells
+     * @return
+     */
     public ArrayList<Spell> getSpells() {
         ArrayList<Spell> list = new ArrayList<>();
 
@@ -323,7 +335,15 @@ public class Card {
      * make it visible
      */
     public void show() {
-        root.getChildren().add(card);
+        if(!root.getChildren().contains(card))
+            root.getChildren().add(card);
+    }
+
+    /**
+     * Remove card from root make it invisible
+     */
+    public void remove() {
+        root.getChildren().remove(card);
     }
 
     public Group getRoot() {
@@ -347,6 +367,22 @@ public class Card {
 
     public void rotateCard() {
         card.setRotate(180);
+    }
+
+    public boolean getAttackStatus() {
+        return attackStatus;
+    }
+
+    public void resetAttackStatus() {
+        attackStatus = true;
+    }
+
+    public void setAttackStatus(boolean v) {
+        attackStatus = v;
+    }
+
+    public void setCurrentHp(int hp) {
+        currentHp = hp;
     }
 
     /**
