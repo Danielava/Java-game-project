@@ -25,11 +25,13 @@ public class GameLoopUser {
     private Scene scene;
     private Hand myHand;
     private Group root;
-    private Dice dice;
+    private Dice myDice;
     private Board board;
     private boolean yourTurn; //your turn if this is true which it is at the beginning
     final long startNanoTime = System.nanoTime(); //only used for animation
     private ArrayList<Card> cardsOnBoard;
+
+    private Attack myAttack;
 
     private boolean firstTurn; //only true during the first turn
 
@@ -45,7 +47,7 @@ public class GameLoopUser {
         this.scene = scene;
         myHand = myDeck.getHand();
         this.root = root;
-        this.dice = dice;
+        myDice = dice;
         board = myHand.getBoard();
         yourTurn = turn;
         this.cardsOnBoard = board.cardsOnBoard();
@@ -70,31 +72,34 @@ public class GameLoopUser {
                 //endTurn = board.getEndTurn();
 
                 if(yourTurn == true && !firstTurn) {
-                    if (myHand.getBoardAccess() == false || cardsOnBoard.size() == 2) { //when you are done with putting card on board.
-                        dice.diceEvent(t); //animates the dice and make it interactive.
+                    if (!myHand.getBoardAccess() || cardsOnBoard.size() == 2) { //when you are done with putting card on board.
+                        myDice.diceEvent(t); //animates the dice and make it interactive.
                     }
-                    if (dice.getDiceThrown()) {
-                        board.boardEventDice(); //create board events
+                    if (myDice.getDiceThrown()) {
+                        board.boardEventDice(); //create board events. gör så korten lyser
+                        if(board.checkBoardMatch()) {
+                            myAttack.pickAttackCardEvent(); //gör så du kan välja attack kort.
+                            myAttack.attackOpponentEvent(); //gör så du kan attackera motståndaren.
+                        }
                     }
                 }
 
                 /*
                 OK så ifall vi inte har någon match efter att tärningen kastats så dyker knappen endTurn upp och du kan avsluta
-                din runda. och om det är din tur. Men nu är denna fixad så att du i första rundan endast kan placera ett kort.
+                din runda, och om det är din tur. Men nu är denna fixad så att du i första rundan endast kan placera ett kort.
                  */
-                if(!board.checkBoardMatch() && !root.getChildren().contains(pressEndTurn) && dice.getDiceThrown() && yourTurn
+                if(!board.checkBoardMatch() && !root.getChildren().contains(pressEndTurn) && myDice.getDiceThrown() && yourTurn
                         || firstTurn && !root.getChildren().contains(pressEndTurn) && yourTurn && !myHand.getBoardAccess()) {
                     root.getChildren().addAll(pressEndTurn);
                 }
 
-                //det som händer när du trycker på knappen.
+                //det som händer när du trycker på END_TURN knappen.
                 pressEndTurn.setOnAction(e -> {
                     nemesis.setYourTurn(true); //fundamental
-                    nemesis.setBoardAccess(true); //fundamental
 
                     yourTurn = false;
                     root.getChildren().remove(pressEndTurn);
-                    dice.removeDice();
+                    myDice.removeDice();
                     firstTurn = false;
                 });
 
@@ -103,11 +108,29 @@ public class GameLoopUser {
         }.start();
     }
 
+
+    public Board getBoard() {
+        return board;
+    }
+
+
     public void setNemesis(OpponentAI ai) {
         nemesis = ai;
+        myAttack = new Attack(this, nemesis);
+    }
+
+
+    public OpponentAI getNemesis() {
+        return nemesis;
+    }
+
+    public Dice getDice() {
+        return myDice;
     }
 
     public void setYourTurn(boolean v) {
+        myHand.setBoardAccess(true); //makes it so you can place on the board again
+        myDice.resetDice(); //fundamental so you can press on dice again.
         yourTurn = v;
     }
 }
