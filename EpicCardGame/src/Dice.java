@@ -41,6 +41,7 @@ public class Dice {
 		canvas.setTranslateY(canvasPosY);
 
 		gc = canvas.getGraphicsContext2D();
+
 		this.AI = AI;
 		aniImage = createDice();
 	}
@@ -85,6 +86,7 @@ public class Dice {
 	public void diceEvent(double time) {
 
 		if(!AI) {
+			canvas.toFront(); //viktigt att din canvas hamnar längst fram.
 			//only when the diceAnimation variable is true can you press on the dice
 			canvas.setOnMousePressed(e -> {
 				if (!diceThrown) {
@@ -101,7 +103,7 @@ public class Dice {
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 			gc.drawImage(aniImage.getRandomFrame(), canvasPosX, canvasPosY);
 			diceNumber = aniImage.getDiceNumber();
-			}
+		}
 
 		//stop animation of dice when diceAnimation is false
 		if(!diceThrown)
@@ -122,5 +124,9 @@ public class Dice {
 
 	public boolean getDiceThrown() {
 		return diceThrown;
+	}
+
+	public void setDiceThrown(boolean v) {
+		diceThrown = v;
 	}
 }
