@@ -147,14 +147,14 @@ public class Hand {
 	}
 
 	/**
-	 * Returns a number from -3 to 3.
+	 * Returns a number from -5 to 5.
 	 * Use this for your own cards.
      */
 	public int getLightRandom() {
 		Random sign = new Random();
 		Random nr = new Random();
 		int x = sign.nextInt(1);
-		int rnd = nr.nextInt(3);
+		int rnd = nr.nextInt(5);
 
 		if(x == 1) {
 			return rnd*-1;
