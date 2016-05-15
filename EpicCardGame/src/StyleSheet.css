@@ -40,3 +40,8 @@ I vboxen funkar all kod
     -fx-border-width: 2px;
     -fx-background-color: #d59ca8;
 }
+
+.vboxPicked {
+    -fx-border-color: #ff0600;
+    -fx-border-width: 2px;
+}
