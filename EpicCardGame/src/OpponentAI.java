@@ -86,6 +86,14 @@ public class OpponentAI {
                      */
                     if(opponentDice.getDiceThrown()) {
                         opponentBoard.boardEventDice();
+
+                        /*
+                        FIXA ATTACKER I BOARD EVENT
+                         */
+
+                        opponentDice.removeDice(); //REMOVE LATER
+                        nemesis.setYourTurn(true);
+                        yourTurn = false;
                     }
                 }
             }
@@ -142,7 +150,14 @@ public class OpponentAI {
     }
 
     public void setYourTurn(boolean v) {
+        opponentHand.setBoardAccess(true);
+        opponentDice.resetDice();
+        unPause();
         yourTurn = v;
+    }
+
+    public Board getOpponentBoard() {
+        return opponentBoard;
     }
 
 }
