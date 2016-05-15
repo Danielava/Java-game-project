@@ -21,7 +21,6 @@ public class Board {
     private boolean match, endTurn;
     private Dice dice;
 
-
     /*
     Position Card[3] kommer tillhöra event korten.
      */
@@ -62,7 +61,6 @@ public class Board {
             card.flipCard();
             card.generateCard(root, AI);
         }
-
         drawBoard();
     }
 
@@ -142,25 +140,25 @@ public class Board {
         for (Card c : regularCards) {
             ArrayList<Integer> numbers = c.getSpellsDiceNumber();
             if (numbers.contains(diceNr)) {
-                match = true;
+                match = true; //dvs vi har en matchning.
                 c.getVBoxCard().getStyleClass().add("vboxGlow");
+                c.setAttackStatus(true); //use this variable inside the Attack Class.
+                //boardAttackEvent(c, opponentBoard);
+            } else {
+                c.setDefatulCardStyle(); //call this when attack is done.
             }
-                //c.setDefatulCardStyle(); call this when attack is done.
         }
     }
 
+    //important method used in gameLoop.
     public boolean checkBoardMatch() {
-
         match = false;
-
         int x = dice.getDiceNumber();
-
         for (Card c : regularCards) {
             ArrayList<Integer> nr = c.getSpellsDiceNumber();
             if (nr.contains(x)) {
                 match = true;
-                System.out.print("");
-                c.getVBoxCard().getStyleClass().add("vboxGlow");
+                //c.getVBoxCard().getStyleClass().add("vboxGlow");
             }
             //c.setDefatulCardStyle(); call this when attack is done.
         }
@@ -177,6 +175,17 @@ public class Board {
 
     public ArrayList<Card> cardsOnBoard() {
         return regularCards;
+    }
+
+    /**
+     * Remove desired card from board. For example
+     * when the card hp is below 0.
+     * @param card
+     */
+    public void removeFromBoard(Card card) {
+        if(regularCards.contains(card)) {
+            regularCards.remove(card);
+        }
     }
     /*
     IDÉ: Varje board objekt har en x,y position. Boardet är där dina kort från handen
