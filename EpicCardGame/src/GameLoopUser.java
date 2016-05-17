@@ -29,9 +29,7 @@ public class GameLoopUser {
     private Board board;
     private boolean yourTurn; //your turn if this is true which it is at the beginning
     final long startNanoTime = System.nanoTime(); //only used for animation
-	
     private ArrayList<Card> cardsOnBoard;
-	private ArrayList<Announcer> announcers;
 
     private Attack myAttack;
 
@@ -55,9 +53,6 @@ public class GameLoopUser {
         this.cardsOnBoard = board.cardsOnBoard();
         endTurn = board.getEndTurn();
         firstTurn = true;
-		
-		announcers = new ArrayList<Announcer>();
-        announcers.add(myDeck); announcers.add(myHand); announcers.add(board); announcers.add(myDice);
     }
 
     public void startGame() {
@@ -66,7 +61,7 @@ public class GameLoopUser {
     	
         new AnimationTimer() {
         	/*
-        	BUG: SÅ FORT DU LÄGGER KORT PÅ BOARD, DVS SÅ FORT GETBOARDACCESS VARIABELN BLIR FALSE SÅ BUGGAR TÄRNINGEN
+        	BUG: SÃ… FORT DU LÃ„GGER KORT PÃ… BOARD, DVS SÃ… FORT GETBOARDACCESS VARIABELN BLIR FALSE SÃ… BUGGAR TÃ„RNINGEN
         	 */
             @Override
             public void handle(long time) {
@@ -81,28 +76,24 @@ public class GameLoopUser {
                         myDice.diceEvent(t); //animates the dice and make it interactive.
                     }
                     if (myDice.getDiceThrown()) {
-                        board.boardEventDice(); //create board events. gör så korten lyser
+                        board.boardEventDice(); //create board events. gÃ¶r sÃ¥ korten lyser
                         if(board.checkBoardMatch()) {
-                            myAttack.pickAttackCardEvent(); //gör så du kan välja attack kort.
-                            myAttack.attackOpponentEvent(); //gör så du kan attackera motståndaren.
+                            myAttack.pickAttackCardEvent(); //gÃ¶r sÃ¥ du kan vÃ¤lja attack kort.
+                            myAttack.attackOpponentEvent(); //gÃ¶r sÃ¥ du kan attackera motstÃ¥ndaren.
                         }
                     }
                 }
 
                 /*
-                OK så ifall vi inte har någon match efter att tärningen kastats så dyker knappen endTurn upp och du kan avsluta
-                din runda, och om det är din tur. Men nu är denna fixad så att du i första rundan endast kan placera ett kort.
+                OK sÃ¥ ifall vi inte har nÃ¥gon match efter att tÃ¤rningen kastats sÃ¥ dyker knappen endTurn upp och du kan avsluta
+                din runda, och om det Ã¤r din tur. Men nu Ã¤r denna fixad sÃ¥ att du i fÃ¶rsta rundan endast kan placera ett kort.
                  */
                 if(!board.checkBoardMatch() && !root.getChildren().contains(pressEndTurn) && myDice.getDiceThrown() && yourTurn
                         || firstTurn && !root.getChildren().contains(pressEndTurn) && yourTurn && !myHand.getBoardAccess()) {
                     root.getChildren().addAll(pressEndTurn);
                 }
 
-				for (int i = 0 ; i < announcers.size() ; i++) {
-                	announcers.get(i).announceEvents();
-                }
-				
-                //det som händer när du trycker på END_TURN knappen.
+                //det som hÃ¤nder nÃ¤r du trycker pÃ¥ END_TURN knappen.
                 pressEndTurn.setOnAction(e -> {
                     nemesis.setYourTurn(true); //fundamental
 
