@@ -57,7 +57,7 @@ public class GameLoopUser {
         firstTurn = true;
 		
 		announcers = new ArrayList<Announcer>();
-        announcers.add(myDeck); announcers.add(myHand); announcers.add(myboard); announcers.add(myDice);
+        announcers.add(myDeck); announcers.add(myHand); announcers.add(board); announcers.add(myDice);
     }
 
     public void startGame() {
@@ -98,6 +98,10 @@ public class GameLoopUser {
                     root.getChildren().addAll(pressEndTurn);
                 }
 
+				for (int i = 0 ; i < announcers.size() ; i++) {
+                	announcers.get(i).announceEvents();
+                }
+				
                 //det som händer när du trycker på END_TURN knappen.
                 pressEndTurn.setOnAction(e -> {
                     nemesis.setYourTurn(true); //fundamental
