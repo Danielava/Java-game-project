@@ -145,6 +145,7 @@ public class Deck {
 			if(hand.getCardsInHand() < hand.MAX) {
 				draw(); //a random card from Deck is put in hand
 				drawDeck(); //an updated deck is now drawn on screen
+				Chat.storeText("Deck size is now " + deck.size()+".");
 			}
 		});
 	}
