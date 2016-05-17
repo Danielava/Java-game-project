@@ -61,6 +61,7 @@ public class Board {
             card.flipCard();
             card.generateCard(root, AI);
         }
+		Chat.storeText(card.toString() + "was added to the board.");
         drawBoard();
     }
 
