@@ -1,8 +1,4 @@
-import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-
-import java.awt.*;
+import java.util.Arrays;
 
 public class Chat {
 	
@@ -11,7 +7,7 @@ public class Chat {
 	private double screenWidth, screenHeight;
 	private Canvas canvas;
 	private GraphicsContext gc;
-	private String[] texts;
+	private static String[] texts = {"","","","","","","","","",""};
 	
 	public Chat(Group root, double w, double h) {
 		screenWidth = w;
@@ -26,15 +22,16 @@ public class Chat {
 
 		canvas.setTranslateX(canvasPosX);
 		canvas.setTranslateY(canvasPosY);
-		
-		texts = new String[10];
 
 		gc = canvas.getGraphicsContext2D();
 	}
 	
 	public void chatEvent() {
 		for (int i = 0; i < texts.length; i++) {
-			gc.fillText(texts[i],screenWidth/2,screenHeight/2 - i*15,maxTextWidth);
+			System.out.println(texts[i]);
+			gc.setFill(javafx.scene.paint.Color.BLACK);
+			gc.fillText(texts[i],screenWidth,screenHeight - i*15,maxTextWidth);
+			gc.fillRect(screenWidth, screenHeight, 100, 100);
 		}
 	}
 	
@@ -45,9 +42,9 @@ public class Chat {
 	 * The last text is removed.
 	 * @param text 		a short text
 	 */
-	public void storeText(String text) {
-		for (int i = 0; i < texts.length; i++) {
-			texts[i] = texts[i+1];
+	public static void storeText(String text) {
+		for (int i = 0; i < texts.length-1; i++) {
+			texts[i+1] = texts[i];
 		}
 		texts[0] = text;
 	}
