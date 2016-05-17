@@ -29,7 +29,9 @@ public class GameLoopUser {
     private Board board;
     private boolean yourTurn; //your turn if this is true which it is at the beginning
     final long startNanoTime = System.nanoTime(); //only used for animation
+	
     private ArrayList<Card> cardsOnBoard;
+	private ArrayList<Announcer> announcers;
 
     private Attack myAttack;
 
@@ -53,6 +55,9 @@ public class GameLoopUser {
         this.cardsOnBoard = board.cardsOnBoard();
         endTurn = board.getEndTurn();
         firstTurn = true;
+		
+		announcers = new ArrayList<Announcer>();
+        announcers.add(myDeck); announcers.add(myHand); announcers.add(myboard); announcers.add(myDice);
     }
 
     public void startGame() {
