@@ -46,6 +46,7 @@ public class Hand {
 			return;
 		}
 		hand.add(card);
+		Chat.storeText(card.toString() + "was drawn.");
 		drawVisuals();
 	}
 
