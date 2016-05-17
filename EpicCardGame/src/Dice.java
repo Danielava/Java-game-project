@@ -103,6 +103,7 @@ public class Dice {
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 			gc.drawImage(aniImage.getRandomFrame(), canvasPosX, canvasPosY);
 			diceNumber = aniImage.getDiceNumber();
+			Chat.storeText("The dice rolled a " + diceNumber + ".");
 		}
 
 		//stop animation of dice when diceAnimation is false
