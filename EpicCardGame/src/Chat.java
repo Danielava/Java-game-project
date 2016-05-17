@@ -6,6 +6,7 @@ import java.awt.*;
 
 public class Chat {
 	
+	private final double maxTextWidth;
 	private double canvasPosX, canvasPosY;
 	private double screenWidth, screenHeight;
 	private Canvas canvas;
@@ -15,8 +16,9 @@ public class Chat {
 	public Chat(Group root, double w, double h) {
 		screenWidth = w;
 		screenHeight = h;
+		maxTextWidth = 15;
 
-		canvasPosX = screenWidth * 0.016; //rita från denna position
+		canvasPosX = screenWidth * 0.016; //rita frÃ¥n denna position
 		canvasPosY = screenHeight * 0.2;
 		
 		canvas = new Canvas(canvasPosX + 102, canvasPosY + 112); //canvas storlek i parametrarna (till denna position)
@@ -24,13 +26,15 @@ public class Chat {
 
 		canvas.setTranslateX(canvasPosX);
 		canvas.setTranslateY(canvasPosY);
+		
+		texts = new String[10];
 
 		gc = canvas.getGraphicsContext2D();
 	}
 	
-	public void chatEvent(String text, Dimension screen) {
+	public void chatEvent() {
 		for (int i = 0; i < texts.length; i++) {
-			gc.fillText(texts[i],screen.getWidth()/2,screen.getHeight()/2 - i*10);
+			gc.fillText(texts[i],screenWidth/2,screenHeight/2 - i*15,maxTextWidth);
 		}
 	}
 	
