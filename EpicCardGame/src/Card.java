@@ -43,6 +43,7 @@ public class Card {
     turn this into true again.
      */
     private boolean attackStatus;
+    private boolean hasAttacked;
 
 
 
@@ -87,6 +88,7 @@ public class Card {
 
         iv.setImage(image);
         attackStatus = false; //only true when card is glowing
+        hasAttacked = false; //Starts as if the unit has attacked once
 
         //getSpellInfo(); //puts the spell info into the ArrayList smoothly so it can be taken in generateCard method.
     }
@@ -311,7 +313,7 @@ public class Card {
     }
 
 
-    public void setDefatulCardStyle() {
+    public void setDefaultCardStyle() {
         card.getStyleClass().add("vbox");
     }
 
@@ -380,7 +382,14 @@ public class Card {
     public void setAttackStatus(boolean v) {
         attackStatus = v;
     }
+    
+    public boolean getHasAttacked() {
+    	return hasAttacked;
+    }
 
+    public void setHasAttacked(boolean boo) {
+    	hasAttacked = boo;
+    }
     public void setCurrentHp(int hp) {
         currentHp = hp;
     }
@@ -397,5 +406,10 @@ public class Card {
             list.add(s.getDiceNumber());
         }
         return list;
+    }
+    
+    @Override 
+    public String toString() {
+    	return name.toString();
     }
 }
