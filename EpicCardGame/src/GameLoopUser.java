@@ -2,6 +2,9 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
@@ -18,6 +21,8 @@ import java.util.ArrayList;
  */
 public class GameLoopUser {
 
+	public static int killCount;
+	
     private Button pressEndTurn; //the button will appear on screen when your turn is done. press it to end your turn.
     private boolean endTurn;
 
@@ -35,6 +40,7 @@ public class GameLoopUser {
     private Attack myAttack;
 
     private boolean firstTurn; //only true during the first turn
+    private boolean gameWin;
 
     private OpponentAI nemesis;
 
@@ -43,6 +49,7 @@ public class GameLoopUser {
         pressEndTurn = new Button("END TURN");
         pressEndTurn.setTranslateX(0);
         pressEndTurn.setTranslateY(0);
+        killCount = 0;
 
         myDeck = deck;
         this.scene = scene;
@@ -55,6 +62,7 @@ public class GameLoopUser {
         this.cardsOnBoard = board.cardsOnBoard();
         endTurn = board.getEndTurn();
         firstTurn = true;
+        gameWin = false;
     }
 
     public void startGame() {
@@ -67,6 +75,20 @@ public class GameLoopUser {
         	 */
             @Override
             public void handle(long time) {
+            	if(gameWin == true) {
+            		for(Card c : board.cardsOnBoard()) {
+            			c.remove();
+            		}
+            		Image gameWin = new Image("images/wonthegame.png");
+            		VBox box = new VBox();
+            		ImageView iv = new ImageView();
+            		iv.setImage(gameWin);
+            		box.getChildren().addAll(iv);
+            		root.getChildren().add(box);
+            		while(true) {
+            			System.out.println("WON!");
+            		}
+            	}
             	double t = ((time - startNanoTime) / 1000000000.0)*2;
 
                 myDeck.deckEvent(); //the deck event draws a card when you click on deck.
@@ -108,13 +130,15 @@ public class GameLoopUser {
                     	c.setHasAttacked(false);
                     	c.setDefaultCardStyle();
                     }
+                    if(killCount == 0) {
+                    	gameWin = true;
+                    }
                 });
 
             }
 
         }.start();
     }
-
 
     public Board getBoard() {
         return board;
