@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * regular attack cards where max = 2. and one where
  * you put your ability cards which holds 1.
  */
-public class Board {
+public class Board implements Announcer{
 
     private final int MAX = 3; //maxSize on arrayList.
     private double screenWidth, screenHeight;
@@ -61,7 +61,7 @@ public class Board {
             card.flipCard();
             card.generateCard(root, AI);
         }
-		Chat.storeText(card.toString() + "was added to the board.");
+        Chat.storeText(card.toString() + "was added to the board.");
         drawBoard();
     }
 
@@ -132,21 +132,23 @@ public class Board {
      * cards with matched nr on the board will glow
      * and you can press on them to attack.
      *
-     * //You can also throw the cards away if you don't want them
-     * //on your deck. (??)
+     * You can also throw the cards away if you don't want them
+     * on your deck. (??)
      */
     public void boardEventDice() {
         int diceNr = dice.getDiceNumber(); //gives rolled dice nr.
-
+        System.out.println("Matchning!");
         for (Card c : regularCards) {
             ArrayList<Integer> numbers = c.getSpellsDiceNumber();
-            if (numbers.contains(diceNr)) {
+            if (numbers.contains(diceNr) && !c.getHasAttacked()) {
+            	System.out.println("Matchning!" + " Och btw, getDiceNumber = " + dice.getDiceNumber());
                 match = true; //dvs vi har en matchning.
                 c.getVBoxCard().getStyleClass().add("vboxGlow");
                 c.setAttackStatus(true); //use this variable inside the Attack Class.
                 //boardAttackEvent(c, opponentBoard);
             } else {
-                c.setDefatulCardStyle(); //call this when attack is done.
+                c.setDefaultCardStyle(); //call this when attack is done.
+                
             }
         }
     }
@@ -161,7 +163,7 @@ public class Board {
                 match = true;
                 //c.getVBoxCard().getStyleClass().add("vboxGlow");
             }
-            //c.setDefatulCardStyle(); call this when attack is done.
+            //c.setDefaultCardStyle(); call this when attack is done.
         }
         return match;
     }
@@ -194,7 +196,9 @@ public class Board {
     Ability korten kan antingen vara passive saker eller event kort.
      */
 
-
+    public void announceEvents() {
+    	
+    }
 
 
 }
