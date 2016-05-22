@@ -76,7 +76,8 @@ public class Attack {
                     //attack opponent
                     press = true;
                     attack(pickedCard, c, dice.getDiceNumber()); //why is this still being called when we sell variables to false?
-                    //pickedCard.setAttackStatus(false);
+                    pickedCard.setAttackStatus(false);
+                    pickedCard.setHasAttacked(true);
                     //try and call the attack method inside the GameLoopUser loop.
                 });
             }
@@ -89,7 +90,7 @@ public class Attack {
     public void attack(Card attacker, Card victim, int diceNr) {
         ArrayList<Spell> spells = attacker.getSpells(); //all spells in this list
         for(Spell s : spells) {
-            if(s.getDiceNumber() == diceNr && check) {
+            if(s.getDiceNumber() == diceNr && !attacker.getHasAttacked()) {
                 victim.setCurrentHp(victim.getCurrentHealth() - s.getPower());
                 victim.updateHpOnCard();
                 //System.out.println(victim.getCurrentHealth());
@@ -99,9 +100,9 @@ public class Attack {
                     victim.remove();
                     //System.out.println(attacker.getAttackStatus()); //why
                 }
-                check = false; //don't forget to change this to true at some point
                 attacker.setAttackStatus(false);
-                attacker.setDefatulCardStyle();
+                attacker.setDefaultCardStyle();
+                attacker.setHasAttacked(true);
             }
         }
     }
