@@ -26,6 +26,7 @@ public class GameLoopUser {
     private Hand myHand;
     private Group root;
     private Dice myDice;
+    private Chat myChat;
     private Board board;
     private boolean yourTurn; //your turn if this is true which it is at the beginning
     final long startNanoTime = System.nanoTime(); //only used for animation
@@ -38,7 +39,7 @@ public class GameLoopUser {
     private OpponentAI nemesis;
 
     //constructor
-    public GameLoopUser(Deck deck, Scene scene, Group root, Dice dice, boolean turn) {
+    public GameLoopUser(Deck deck, Scene scene, Group root, Dice dice, Chat chat, boolean turn) {
         pressEndTurn = new Button("END TURN");
         pressEndTurn.setTranslateX(0);
         pressEndTurn.setTranslateY(0);
@@ -48,6 +49,7 @@ public class GameLoopUser {
         myHand = myDeck.getHand();
         this.root = root;
         myDice = dice;
+        myChat = chat;
         board = myHand.getBoard();
         yourTurn = turn;
         this.cardsOnBoard = board.cardsOnBoard();
@@ -61,7 +63,7 @@ public class GameLoopUser {
     	
         new AnimationTimer() {
         	/*
-        	BUG: SÃ… FORT DU LÃ„GGER KORT PÃ… BOARD, DVS SÃ… FORT GETBOARDACCESS VARIABELN BLIR FALSE SÃ… BUGGAR TÃ„RNINGEN
+        	BUG: SÅ FORT DU LÄGGER KORT PÅ BOARD, DVS SÅ FORT GETBOARDACCESS VARIABELN BLIR FALSE SÅ BUGGAR TÄRNINGEN
         	 */
             @Override
             public void handle(long time) {
@@ -69,31 +71,31 @@ public class GameLoopUser {
 
                 myDeck.deckEvent(); //the deck event draws a card when you click on deck.
                 myHand.handEvent(); //events for player hand.
-                //endTurn = board.getEndTurn();
+                myChat.chatEvent(); //endTurn = board.getEndTurn();
 
                 if(yourTurn == true && !firstTurn) {
                     if (!myHand.getBoardAccess() || cardsOnBoard.size() == 2) { //when you are done with putting card on board.
                         myDice.diceEvent(t); //animates the dice and make it interactive.
                     }
                     if (myDice.getDiceThrown()) {
-                        board.boardEventDice(); //create board events. gÃ¶r sÃ¥ korten lyser
+                        board.boardEventDice(); //create board events. gör så korten lyser
                         if(board.checkBoardMatch()) {
-                            myAttack.pickAttackCardEvent(); //gÃ¶r sÃ¥ du kan vÃ¤lja attack kort.
-                            myAttack.attackOpponentEvent(); //gÃ¶r sÃ¥ du kan attackera motstÃ¥ndaren.
+                            myAttack.pickAttackCardEvent(); //gör så du kan välja attack kort.
+                            myAttack.attackOpponentEvent(); //gör så du kan attackera motståndaren.
                         }
                     }
                 }
 
                 /*
-                OK sÃ¥ ifall vi inte har nÃ¥gon match efter att tÃ¤rningen kastats sÃ¥ dyker knappen endTurn upp och du kan avsluta
-                din runda, och om det Ã¤r din tur. Men nu Ã¤r denna fixad sÃ¥ att du i fÃ¶rsta rundan endast kan placera ett kort.
+                OK så ifall vi inte har någon match efter att tärningen kastats så dyker knappen endTurn upp och du kan avsluta
+                din runda, och om det är din tur. Men nu är denna fixad så att du i första rundan endast kan placera ett kort.
                  */
-                if(!board.checkBoardMatch() && !root.getChildren().contains(pressEndTurn) && myDice.getDiceThrown() && yourTurn
+                if(!root.getChildren().contains(pressEndTurn) && myDice.getDiceThrown() && yourTurn
                         || firstTurn && !root.getChildren().contains(pressEndTurn) && yourTurn && !myHand.getBoardAccess()) {
                     root.getChildren().addAll(pressEndTurn);
                 }
 
-                //det som hÃ¤nder nÃ¤r du trycker pÃ¥ END_TURN knappen.
+                //det som händer när du trycker på END_TURN knappen.
                 pressEndTurn.setOnAction(e -> {
                     nemesis.setYourTurn(true); //fundamental
 
@@ -101,6 +103,11 @@ public class GameLoopUser {
                     root.getChildren().remove(pressEndTurn);
                     myDice.removeDice();
                     firstTurn = false;
+                    Chat.storeText("The turn was ended!");
+                    for(Card c : getBoard().cardsOnBoard()) {
+                    	c.setHasAttacked(false);
+                    	c.setDefaultCardStyle();
+                    }
                 });
 
             }
