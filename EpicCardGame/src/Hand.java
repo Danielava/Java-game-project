@@ -9,7 +9,7 @@ import java.util.Random;
  * All cards in the hand should be visible on the lower center of the
  * screen in a row.
  */
-public class Hand {
+public class Hand implements Announcer {
 	public final int MAX = 5; //Amount of cards to be able to hold
 	private ArrayList<Card> hand; //alla kort i handen ligger här.
 	private int xPos, yPos;
@@ -251,4 +251,8 @@ public class Hand {
 	public boolean getBoardAccess() {
 		return boardAccess;
 	}
+	
+	public void announceEvents() {
+    	
+    }
 }

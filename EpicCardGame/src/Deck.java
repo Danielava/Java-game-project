@@ -18,7 +18,7 @@ import java.util.Random;
  * make it so that the deck draws the card
  */
 
-public class Deck {
+public class Deck implements Announcer{
 	private ArrayList<Card> deck;
 	private final int deckSize = 20;
 	private Random rnd;
@@ -160,4 +160,8 @@ public class Deck {
 	public Hand getHand() {
 		return hand;
 	}
+	
+	public void announceEvents() {
+    	
+    }
 }

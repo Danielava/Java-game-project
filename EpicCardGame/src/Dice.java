@@ -9,7 +9,7 @@ import java.util.Random;
  * Click on the dice to roll it and then you will be able to perform
  * your move. THE DICE IS TOTALLY RANDOM.
  */
-public class Dice {
+public class Dice implements Announcer {
 
 	private Random r;
 	private final int DICE_LENGTH = 6;
@@ -130,4 +130,8 @@ public class Dice {
 	public void setDiceThrown(boolean v) {
 		diceThrown = v;
 	}
+	
+	public void announceEvents() {
+    	
+    }
 }
