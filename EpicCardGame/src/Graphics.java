@@ -39,6 +39,7 @@ public class Graphics extends Application{
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
     private Dice myDice, opponentDice;
+    private Chat myChat;
     private ArrayList<Card> allCards;
     private boolean yourTurn; //when this is true it means it's currently your turn. The variable will be fundamental to our program.
 
@@ -61,6 +62,8 @@ public class Graphics extends Application{
         opponentDeck = new Deck(20, 20, opponentHand, root, true); //hand object goes in here
         allCards = new ArrayList<Card>();
 
+        myChat = new Chat(root,screenWidth, screenHeight);
+        
         spellSet1 = new ArrayList<>();
         spellSet2 = new ArrayList<>();
         spellSet3 = new ArrayList<>();
@@ -82,7 +85,7 @@ public class Graphics extends Application{
         scene.getRoot().getTransforms().setAll(scale);
 
         //initiate the game loop
-        game = new GameLoopUser(myDeck, scene, root, myDice, true);
+        game = new GameLoopUser(myDeck, scene, root, myDice, myChat, true);
         AI = new OpponentAI(opponentDeck, scene, root, opponentDice, false);
 
         //this way these two can communicate
