@@ -98,6 +98,7 @@ public class Attack {
                     opponentBoard.removeFromBoard(victim);
                     opponentBoard.drawBoard();
                     victim.remove();
+                    GameLoopUser.killCount += 1;
                     //System.out.println(attacker.getAttackStatus()); //why
                 }
                 attacker.setAttackStatus(false);

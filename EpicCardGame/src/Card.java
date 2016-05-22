@@ -315,6 +315,7 @@ public class Card {
 
     public void setDefaultCardStyle() {
         card.getStyleClass().add("vbox");
+        setCardStyle();
     }
 
     public double getCardHeigth() {
