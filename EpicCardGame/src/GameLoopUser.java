@@ -130,7 +130,7 @@ public class GameLoopUser {
                     	c.setHasAttacked(false);
                     	c.setDefaultCardStyle();
                     }
-                    if(killCount == 0) {
+                    if(killCount == 5) {
                     	gameWin = true;
                     }
                 });
