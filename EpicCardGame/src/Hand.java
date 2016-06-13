@@ -46,7 +46,7 @@ public class Hand implements Announcer {
 			return;
 		}
 		hand.add(card);
-		Chat.storeText(card.toString() + "was drawn.");
+		//Chat.storeText(card.toString() + "was drawn.");
 		drawVisuals();
 	}
 
