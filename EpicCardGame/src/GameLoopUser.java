@@ -1,10 +1,7 @@
 import javafx.animation.AnimationTimer;
-import javafx.scene.Scene;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 
@@ -49,7 +46,7 @@ public class GameLoopUser {
         pressEndTurn = new Button("END TURN");
         pressEndTurn.setTranslateX(0);
         pressEndTurn.setTranslateY(0);
-        killCount = 0;
+        //killCount = 0;
 
         myDeck = deck;
         this.scene = scene;
@@ -75,33 +72,21 @@ public class GameLoopUser {
         	 */
             @Override
             public void handle(long time) {
-            	if(gameWin == true) {
-            		for(Card c : board.cardsOnBoard()) {
-            			c.remove();
-            		}
-            		Image gameWin = new Image("images/wonthegame.png");
-            		VBox box = new VBox();
-            		ImageView iv = new ImageView();
-            		iv.setImage(gameWin);
-            		box.getChildren().addAll(iv);
-            		root.getChildren().add(box);
-            		while(true) {
-            			System.out.println("WON!");
-            		}
-            	}
+
             	double t = ((time - startNanoTime) / 1000000000.0)*2;
 
                 myDeck.deckEvent(); //the deck event draws a card when you click on deck.
                 myHand.handEvent(); //events for player hand.
-                myChat.chatEvent(); //endTurn = board.getEndTurn();
 
                 if(yourTurn == true && !firstTurn) {
                     if (!myHand.getBoardAccess() || cardsOnBoard.size() == 2) { //when you are done with putting card on board.
                         myDice.diceEvent(t); //animates the dice and make it interactive.
                     }
                     if (myDice.getDiceThrown()) {
-                        board.boardEventDice(); //create board events. gör så korten lyser
-                        if(board.checkBoardMatch()) {
+                        if(board.getBoardEventCheck()) {
+                            board.boardEventDice(); //create board events. gör endast så korten lyser och sätter match = true om det lyser
+                        }
+                        if(board.getMatch()) {
                             myAttack.pickAttackCardEvent(); //gör så du kan välja attack kort.
                             myAttack.attackOpponentEvent(); //gör så du kan attackera motståndaren.
                         }
@@ -112,7 +97,8 @@ public class GameLoopUser {
                 OK så ifall vi inte har någon match efter att tärningen kastats så dyker knappen endTurn upp och du kan avsluta
                 din runda, och om det är din tur. Men nu är denna fixad så att du i första rundan endast kan placera ett kort.
                  */
-                if(!root.getChildren().contains(pressEndTurn) && myDice.getDiceThrown() && yourTurn
+                //gör så endTurn knappen dyker upp efter du attackerat och inte innan
+                if(!root.getChildren().contains(pressEndTurn) && myDice.getDiceThrown() && yourTurn && !board.attacksDone()
                         || firstTurn && !root.getChildren().contains(pressEndTurn) && yourTurn && !myHand.getBoardAccess()) {
                     root.getChildren().addAll(pressEndTurn);
                 }
@@ -125,14 +111,11 @@ public class GameLoopUser {
                     root.getChildren().remove(pressEndTurn);
                     myDice.removeDice();
                     firstTurn = false;
-                    Chat.storeText("The turn was ended!");
+
                     for(Card c : getBoard().cardsOnBoard()) {
                     	c.setHasAttacked(false);
-                    	c.setDefaultCardStyle();
                     }
-                    if(killCount == 5) {
-                    	gameWin = true;
-                    }
+
                 });
 
             }
@@ -162,6 +145,12 @@ public class GameLoopUser {
     public void setYourTurn(boolean v) {
         myHand.setBoardAccess(true); //makes it so you can place on the board again
         myDice.resetDice(); //fundamental so you can press on dice again.
+        board.resetBoardEventCheck(); //sets this variable to true again so cards can glow when matching dice
         yourTurn = v;
+        myAttack.resetPress(); //reset so you can attack again.
+    }
+
+    public Attack getAttack() {
+        return myAttack;
     }
 }
