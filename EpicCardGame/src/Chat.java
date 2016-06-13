@@ -1,7 +1,6 @@
-import java.util.Arrays;
-
 public class Chat {
-	
+	/* DENHÄR KLASSEN FUCKAR SPELET
+
 	private final double maxTextWidth;
 	private double canvasPosX, canvasPosY;
 	private double screenWidth, screenHeight;
@@ -42,10 +41,12 @@ public class Chat {
 	 * The last text is removed.
 	 * @param text 		a short text
 	 */
+	/*
 	public static void storeText(String text) {
 		for (int i = 0; i < texts.length-1; i++) {
 			texts[i+1] = texts[i];
 		}
 		texts[0] = text;
 	}
+	*/
 }
