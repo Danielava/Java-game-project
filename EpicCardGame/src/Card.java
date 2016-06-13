@@ -33,6 +33,7 @@ public class Card {
     private ArrayList<Label> spellInfo;
     private Label name, hp, description;
     private double posX, posY;
+    private boolean dead;
 
     private final double CARDHEIGHT = 300;
     private final double CARDWIDTH = 180;
@@ -72,7 +73,6 @@ public class Card {
         posY = 0;
 
         flip = false;
-
         dummyImage = new Image("images/dummy.png");
         dummyIv = new ImageView();
         dummyIv.setImage(dummyImage);
@@ -85,6 +85,7 @@ public class Card {
         HEALTH = hp;
         currentHp = hp;
         this.hp = new Label(currentHp + " ♥");
+        dead = false;
 
         iv.setImage(image);
         attackStatus = false; //only true when card is glowing
@@ -300,6 +301,10 @@ public class Card {
         if(type == Type.ACTOR) {
             card.setStyle("-fx-background-color: linear-gradient(#67f2ff, #a3ecff)");
         }
+
+        if(type == Type.BAWS) {
+            card.setStyle("-fx-background-color: linear-gradient(#ff0c0c, #fafff4)");
+        }
     }
 
     /**
@@ -315,7 +320,7 @@ public class Card {
 
     public void setDefaultCardStyle() {
         card.getStyleClass().add("vbox");
-        setCardStyle();
+        //setCardStyle();
     }
 
     public double getCardHeigth() {
@@ -390,6 +395,8 @@ public class Card {
 
     public void setHasAttacked(boolean boo) {
     	hasAttacked = boo;
+        card.getStyleClass().removeAll("vbox", "vboxGlow", "vboxPicked");
+        setDefaultCardStyle();
     }
     public void setCurrentHp(int hp) {
         currentHp = hp;
@@ -408,9 +415,18 @@ public class Card {
         }
         return list;
     }
-    
+
+    public void killCard() {
+        dead = true;
+    }
+
+    public boolean getDeathStatus() {
+        return dead;
+    }
+
     @Override 
     public String toString() {
     	return name.toString();
     }
 }
+//SNACKA LITE OM DENNA KLASS OCG METODEN GENERATECARD LOL
