@@ -20,6 +20,7 @@ public class Board implements Announcer{
     private boolean AI;
     private boolean match, endTurn;
     private Dice dice;
+    private boolean boardEventCheck;
 
     /*
     Position Card[3] kommer tillhöra event korten.
@@ -37,6 +38,7 @@ public class Board implements Announcer{
         match = false;
         this.dice = dice;
         endTurn = false;
+        boardEventCheck = true;
     }
 
     /**
@@ -61,7 +63,7 @@ public class Board implements Announcer{
             card.flipCard();
             card.generateCard(root, AI);
         }
-        Chat.storeText(card.toString() + "was added to the board.");
+        //Chat.storeText(card.toString() + "was added to the board.");
         drawBoard();
     }
 
@@ -137,22 +139,36 @@ public class Board implements Announcer{
      */
     public void boardEventDice() {
         int diceNr = dice.getDiceNumber(); //gives rolled dice nr.
-        System.out.println("Matchning!");
+        boardEventCheck = false;
         for (Card c : regularCards) {
             ArrayList<Integer> numbers = c.getSpellsDiceNumber();
             if (numbers.contains(diceNr) && !c.getHasAttacked()) {
-            	System.out.println("Matchning!" + " Och btw, getDiceNumber = " + dice.getDiceNumber());
                 match = true; //dvs vi har en matchning.
                 c.getVBoxCard().getStyleClass().add("vboxGlow");
                 c.setAttackStatus(true); //use this variable inside the Attack Class.
                 //boardAttackEvent(c, opponentBoard);
             } else {
                 c.setDefaultCardStyle(); //call this when attack is done.
-                
             }
         }
     }
 
+    /**
+     * Använd denna metod för att se om det nu är tillåtet att rita END TURN knappen.
+     * Denna knapp ritas då alla kort på board attackStatus = false;
+     * @return false eller true beroende på boardens attack status.
+     */
+    public boolean attacksDone() {
+        boolean x = false;
+        for(Card c : regularCards) {
+            if(c.getAttackStatus() == true) {
+                x = true;
+            }
+        }
+        return x;
+    }
+
+    /*
     //important method used in gameLoop.
     public boolean checkBoardMatch() {
         match = false;
@@ -167,9 +183,17 @@ public class Board implements Announcer{
         }
         return match;
     }
+*/
 
     public boolean getMatch() {
         return match;
+    }
+
+    /**
+     * anropa denna i slutet av OpponentAI turn
+     */
+    public void resetMatch() {
+        match = false;
     }
 
     public boolean getEndTurn() {
@@ -195,6 +219,30 @@ public class Board implements Announcer{
     placeras. Du har två rutor för dina vanliga attack kort och sedan en ruta för ability kort.
     Ability korten kan antingen vara passive saker eller event kort.
      */
+
+    public int getSize() {
+        return regularCards.size();
+    }
+
+    public Card getCard(int index) {
+        return regularCards.get(index);
+    }
+
+    /**
+     * The variable is used so that the boardEventDice method
+     * is only called once after dice is thrown.
+     * @return
+     */
+    public boolean getBoardEventCheck() {
+        return boardEventCheck;
+    }
+
+    /**
+     * Call this method after your turn is done.
+     */
+    public void resetBoardEventCheck() {
+        boardEventCheck = true;
+    }
 
     public void announceEvents() {
     	
