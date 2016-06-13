@@ -20,13 +20,13 @@ public class Dice implements Announcer {
 	private double canvasPosX, canvasPosY;
 	private double screenWidth, screenHeight;
 	private boolean AI;
-
+	private boolean wait;
 	private boolean diceThrown;
 	private boolean stopDice;
-	
+
 	public Dice(Group root, double w, double h, boolean AI){
 		diceThrown = false;
-
+		wait = false;
 		screenWidth = w;
 		screenHeight = h;
 
@@ -72,6 +72,7 @@ public class Dice implements Announcer {
 	private void animateDice(double time) {
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 	    	gc.drawImage(aniImage.getFrame(time), canvasPosX, canvasPosY);
+			wait = false;
 	}
 
 	/**
@@ -103,12 +104,14 @@ public class Dice implements Announcer {
 			gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 			gc.drawImage(aniImage.getRandomFrame(), canvasPosX, canvasPosY);
 			diceNumber = aniImage.getDiceNumber();
-			Chat.storeText("The dice rolled a " + diceNumber + ".");
 		}
 
 		//stop animation of dice when diceAnimation is false
-		if(!diceThrown)
-			animateDice(time);
+		if(!wait) {
+			//wait = true;
+			if (!diceThrown)
+				animateDice(time);
+		}
 	}
 
 	public void stopDice() {
