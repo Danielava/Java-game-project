@@ -25,7 +25,8 @@ public class OpponentAI {
     private final long startNanoTime = System.nanoTime(); //only used for animation
     double i;
     private boolean pause, unpause; //use these for timer
-
+    private Attack attack;
+    private boolean atkStatus;
     private GameLoopUser nemesis;
 
 
@@ -34,6 +35,7 @@ public class OpponentAI {
         this.scene = scene;
         this.root = root;
         this.opponentDice = dice;
+        atkStatus = false;
         yourTurn = turn; //how to access this from outside?
         opponentHand = deck.getHand();
         opponentBoard = opponentHand.getBoard();
@@ -55,10 +57,6 @@ public class OpponentAI {
             @Override
             public void handle(long time) {
 
-                if(pause) {
-                    i = 0;
-                }
-
                 double t = ((time - startNanoTime) / 1000000000.0)*2;
 
                 if(cardsInHand.size() < 5) {
@@ -68,15 +66,21 @@ public class OpponentAI {
 
                 //opponents turn to put card on board and roll dice.
                 if(yourTurn == true) { //put the variable to false when your turn is over.
+                    //System.out.println("jiefojais");
                     int x = cardsInHand.size();
                     opponentHand.addToBoard(cardsInHand.get(x - 1));
                     //make dice appear.
-                    opponentDice.diceEvent(t);
+                    if(!opponentDice.getDiceThrown()) {
+                        opponentDice.diceEvent(t);
+                    }
 
-                    if(!opponentHand.getBoardAccess() && timerWait(0.8)) {
-                        //throw the dice after tiny delay.
-                        opponentDice.stopDice();
-                        pause(); //now our timer stops ANROPA UNPAUSE INNAN DU STARTAR EN NY TIMER.
+                    if(!opponentDice.getDiceThrown()) {
+                        if (!opponentHand.getBoardAccess() && timerWait(0.8)) {
+                            //throw the dice after tiny delay.
+                            opponentDice.stopDice();
+                            pause(); //now our timer stops ANROPA UNPAUSE INNAN DU STARTAR EN NY TIMER.
+                            System.out.println("hej");
+                        }
                     }
 
                     //allt som ska hända efter tärningen är kastad.
@@ -85,15 +89,38 @@ public class OpponentAI {
                     Sedan anropar vi en attackEvent så vår motståndare kan attackera.
                      */
                     if(opponentDice.getDiceThrown()) {
-                        opponentBoard.boardEventDice();
+                        unPause();
+                        if(opponentBoard.getBoardEventCheck()) {
+                            opponentBoard.boardEventDice();
+                            pause();
+                        }
+                        //System.out.println("hej");
 
-                        /*
-                        FIXA ATTACKER I BOARD EVENT
-                         */
+                        //KOD FÖR ATTACK
+                        if(opponentBoard.getMatch()) {
+                            pause();
+                            for (int j = 0; j < opponentBoard.getSize(); j++) {
+                                unPause();
+                                if (opponentBoard.getCard(j).getAttackStatus() && timerWait(1.1)) { //1.5
+                                    //ATTACK
+                                    attack.aiAttack(opponentBoard.getCard(j), opponentDice.getDiceNumber());
+                                    pause();
+                                }
+                            }
+                        }
 
-                        opponentDice.removeDice(); //REMOVE LATER
-                        nemesis.setYourTurn(true);
-                        yourTurn = false;
+                        if(timerWait(1.11)) { //1.7
+                            //ta bort tärningen efter 0.5 sekunder.
+                            opponentDice.removeDice();
+                            pause();
+                            nemesis.setYourTurn(true);
+                            yourTurn = false;
+
+                            for(Card c : opponentBoard.cardsOnBoard()) {
+                                c.setHasAttacked(false);
+                            }
+                        }
+                        //opponentDice.removeDice(); //REMOVE LATER
                     }
                 }
             }
@@ -110,6 +137,7 @@ public class OpponentAI {
             public boolean timerWait(double wait) {
                 //if timer is paused this won't execute
                 if(pause) {
+                    i = 0;
                     return false;
                 }
 
@@ -147,13 +175,17 @@ public class OpponentAI {
 
     public void setNemesis(GameLoopUser user) {
         nemesis = user;
+        attack = nemesis.getAttack();
     }
 
     public void setYourTurn(boolean v) {
         opponentHand.setBoardAccess(true);
         opponentDice.resetDice();
-        unPause();
         yourTurn = v;
+        i = 0;
+        opponentBoard.resetBoardEventCheck();
+        opponentBoard.resetMatch();
+        atkStatus = false;
     }
 
     public Board getOpponentBoard() {
