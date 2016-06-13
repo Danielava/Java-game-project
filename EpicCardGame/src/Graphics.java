@@ -33,9 +33,9 @@ public class Graphics extends Application{
     private int app_w = 1100; //witdh
     private int app_h = 750;  //height
 
-    private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3, shellSpell1, trueStreamEdge, kraken, jellyDance;
-    private Card aori, inkling, camilla, octoling, octoling2, inkling2, shellfie;
-    private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4, octo2Spell, inkling2Spell, shellfSpell;
+    private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3, shellSpell1, trueStreamEdge, kraken, jellyDance, hinokaStream;
+    private Card aori, inkling, camilla, octoling, octoling2, inkling2, shellfie, hinoka;
+    private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4, octo2Spell, inkling2Spell, shellfSpell, hinokaSpell;
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
     private Dice myDice, opponentDice;
@@ -62,7 +62,7 @@ public class Graphics extends Application{
         opponentDeck = new Deck(20, 20, opponentHand, root, true); //hand object goes in here
         allCards = new ArrayList<Card>();
 
-        myChat = new Chat(root,screenWidth, screenHeight);
+        //myChat = new Chat(root,screenWidth, screenHeight);
         
         spellSet1 = new ArrayList<>();
         spellSet2 = new ArrayList<>();
@@ -71,6 +71,7 @@ public class Graphics extends Application{
         octo2Spell = new ArrayList<>();
         inkling2Spell = new ArrayList<>();
         shellfSpell = new ArrayList<>();
+        //hinokaSpell = new ArrayList<>();
 
         scale = new Scale();
         yourTurn = true;
@@ -136,6 +137,8 @@ public class Graphics extends Application{
         trueStreamEdge = new Spell("True Stream edge", 50, 6);
 
         kraken = new Spell("Kraken", 20, 5);
+
+        //hinokaStream = new Spell("STREAM EDGE", 50, 3);
     }
 
     private void generateSpellSets() {
@@ -157,6 +160,9 @@ public class Graphics extends Application{
 
         addSpell(shellfSpell, shellSpell1);
         addSpell(shellfSpell, jellyDance);
+
+        //addSpell(hinokaSpell, hinokaStream);
+        //addSpell(hinokaSpell, camSpell1);
     }
 
     private void addSpell(ArrayList<Spell> list,Spell spell) {
@@ -195,6 +201,9 @@ public class Graphics extends Application{
         Image octo2Png = new Image("images/octo2.png");
         octoling2 = new Card(octo2Png, "Elite octoling", 60, octo2Spell, Type.TALENT);
 
+        //Image hinok = new Image("images/hinoka.png");
+        //hinoka = new Card(hinok, "Hinoka", 50, hinokaSpell, Type.BAWS);
+
         //just put all cards into the allCard arrayList. not very necessary
         allCards.add(aori);
         allCards.add(inkling);
@@ -219,6 +228,7 @@ public class Graphics extends Application{
         myDeck.add(inkling2);
         myDeck.add(shellfie);
         myDeck.add(octoling2);
+        //myDeck.add(hinoka);
 
         opponentDeck.add(aori);
         opponentDeck.add(shellfie);
