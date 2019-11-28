@@ -9,7 +9,7 @@ import java.util.Random;
  * Click on the dice to roll it and then you will be able to perform
  * your move. THE DICE IS TOTALLY RANDOM.
  */
-public class Dice implements Announcer {
+public class Dice{
 
 	private Random r;
 	private final int DICE_LENGTH = 6;
@@ -51,7 +51,7 @@ public class Dice implements Announcer {
 		AnimatedImage dice = new AnimatedImage();
 		Image[] imageArray = new Image[DICE_LENGTH];
 		for (int i = 1; i < 7; i++) {
-		    imageArray[i-1] = new Image( "images/dice/dice" + i + ".png" );
+		    imageArray[i-1] = new Image("images/dice/dice" + i + ".png");
 		}
 		dice.frames = imageArray;
 		dice.duration = 0.1; //speed of diceAnimation
@@ -133,8 +133,8 @@ public class Dice implements Announcer {
 	public void setDiceThrown(boolean v) {
 		diceThrown = v;
 	}
-	
-	public void announceEvents() {
-    	
-    }
+
+	public void setDiceNumber(int nr) {
+		diceNumber = nr;
+	}
 }

@@ -24,6 +24,8 @@ public class Attack {
     private boolean check, wait;
     private Random rnd;
 
+    private Animation animation;
+
     public Attack(GameLoopUser you, OpponentAI ai) {
         rnd = new Random();
         user =  you;
@@ -35,6 +37,8 @@ public class Attack {
 
         userBoard = you.getBoard();
         opponentBoard = ai.getOpponentBoard();
+
+        animation = new Animation();
 
         //remember that the cards on board will change when cards are added/removed etc
         check = true;
@@ -50,9 +54,18 @@ public class Attack {
     }
     */
 
+    /*
+    BUGGEN HAR ATT GÖRA MED DENNA METOD ENDAST!!!
+
+
+     */
     //put in loop after diceThrow and if BOARD.CHECK_BOARD_MATCH is true.
     public void pickAttackCardEvent() {
-        if (press && !wait) { //good position?
+
+        if(!user.getTurn()) {
+            return;
+        }
+        if (press && !wait && userBoard.getMatch() && user.getTurn()) { //good position?
             wait = true;
 
             for (Card c : userBoard.cardsOnBoard()) {
@@ -63,8 +76,11 @@ public class Attack {
                         if (c.getAttackStatus() && press) { //&&press //attack status is only true if card is matching dice number and then we enter this if-statemen
                             card.getStyleClass().add("vboxPicked");
                             pickedCard = c;
-                            press = false;
                             wait = false;
+
+                            //if(!userBoard.getMatch()) {
+                                press = false;
+                            //}
                         }
                     });
                 } else {
@@ -79,6 +95,10 @@ public class Attack {
      * An event that let's you pick an opponent to attack.
      */
     public void attackOpponentEvent() {
+        if(!user.getTurn()) {
+            return;
+        }
+
         if(!press && pickedCard.getAttackStatus()) {
             for(Card c : opponentBoard.cardsOnBoard()) {
                 VBox card = c.getVBoxCard();
@@ -86,6 +106,13 @@ public class Attack {
                 card.setOnMouseClicked(e -> {
                     //attack opponent
                     attack(pickedCard, c, dice.getDiceNumber(), false); //why is this still being called when we sell variables to false?
+
+                    userBoard.getBoardEventCheck();
+
+                    if(userBoard.getMatch()) {
+                        press = true;
+                    }
+
                     pickedCard.setAttackStatus(false);
                     pickedCard.setHasAttacked(true);
                     //try and call the attack method inside the GameLoopUser loop.
@@ -110,6 +137,9 @@ public class Attack {
      */
     public void attack(Card attacker, Card victim, int diceNr, boolean AI) {
         ArrayList<Spell> spells = attacker.getSpells(); //all spells in this list
+
+        //animation.moveTo(attacker, victim.getVBoxCard().getTranslateX(), victim.getVBoxCard().getTranslateY(), 1);
+
         for(Spell s : spells) {
             if(s.getDiceNumber() == diceNr && !attacker.getHasAttacked()) {
                 victim.setCurrentHp(victim.getCurrentHealth() - s.getPower());
@@ -125,6 +155,7 @@ public class Attack {
                     }
                     victim.killCard(); //sets its dead variable to true. not needed I think..
                     victim.remove();
+                    victim = null;
                 }
                 attacker.setAttackStatus(false); //när attack status är false ska kortet ej kunna attackera mer under omgången.
                 attacker.setHasAttacked(true);

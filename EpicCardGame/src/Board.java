@@ -146,6 +146,7 @@ public class Board implements Announcer{
                 match = true; //dvs vi har en matchning.
                 c.getVBoxCard().getStyleClass().add("vboxGlow");
                 c.setAttackStatus(true); //use this variable inside the Attack Class.
+                //c.setHasAttacked(false);
                 //boardAttackEvent(c, opponentBoard);
             } else {
                 c.setDefaultCardStyle(); //call this when attack is done.

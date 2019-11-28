@@ -89,9 +89,11 @@ public class GameLoopUser {
                         if(board.getMatch()) {
                             myAttack.pickAttackCardEvent(); //gör så du kan välja attack kort.
                             myAttack.attackOpponentEvent(); //gör så du kan attackera motståndaren.
+                            //System.out.println(c.getAttackStatus());
                         }
                     }
                 }
+
 
                 /*
                 OK så ifall vi inte har någon match efter att tärningen kastats så dyker knappen endTurn upp och du kan avsluta
@@ -115,6 +117,8 @@ public class GameLoopUser {
                     for(Card c : getBoard().cardsOnBoard()) {
                     	c.setHasAttacked(false);
                     }
+
+                    myDice.setDiceNumber(8); //you'll have to if you wanna fix a certain bug which lets you attack when it's not your turn.
 
                 });
 
@@ -152,5 +156,13 @@ public class GameLoopUser {
 
     public Attack getAttack() {
         return myAttack;
+    }
+
+    public boolean getTurn() {
+        return yourTurn;
+    }
+
+    public boolean getFirstTurn() {
+        return firstTurn;
     }
 }

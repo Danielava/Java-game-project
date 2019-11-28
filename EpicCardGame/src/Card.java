@@ -305,6 +305,22 @@ public class Card {
         if(type == Type.BAWS) {
             card.setStyle("-fx-background-color: linear-gradient(#ff0c0c, #fafff4)");
         }
+
+        if(type == Type.ROYAL) {
+            card.setStyle("-fx-background-color: linear-gradient(#5c4300, #976c13)");
+        }
+
+        if(type == Type.EX) {
+            card.setStyle("-fx-background-color: linear-gradient(#ff7418, #6d6cff)");
+        }
+
+        if(type == Type.DREAM) {
+            card.setStyle("-fx-background-color: linear-gradient(#ff8b9f, #ff35a2)");
+        }
+
+        if(type == Type.CLASSIC) {
+            card.setStyle("-fx-background-color: linear-gradient(#977262, #fff399)");
+        }
     }
 
     /**

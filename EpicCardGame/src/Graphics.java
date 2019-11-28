@@ -30,12 +30,14 @@ public class Graphics extends Application{
     double screenWidth = screenSize.getWidth();
     double screenHeight = screenSize.getHeight();
 
-    private int app_w = 1100; //witdh
+    private int app_w = 1100; //width
     private int app_h = 750;  //height
 
-    private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3, shellSpell1, trueStreamEdge, kraken, jellyDance, hinokaStream;
-    private Card aori, inkling, camilla, octoling, octoling2, inkling2, shellfie, hinoka;
-    private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4, octo2Spell, inkling2Spell, shellfSpell, hinokaSpell;
+    private Spell spell1, spell2, spell3, camSpell1, camSpell2, octoSpell1, octoSpell2, octoSpell3, shellSpell1, trueStreamEdge, kraken, jellyDance, hinokaStream,
+            octoRelax, bladeOfAres, ninaSpell1, ninaSpell2, ninaSpell3, destinyAblaze, darkRider, pegasusForce, ultimaForce;
+    private Card aori, inkling, camilla, octoling, octoling2, inkling2, shellfie, hinoka, xander, camillaEX, nina, niles, octoling3;
+    private ArrayList<Spell> spellSet1, spellSet2, spellSet3, spellSet4, octo2Spell, inkling2Spell, shellfSpell, hinokaSpell, xanderSpells, camillaEXSpells,
+        octo3Spells, ninaSpells;
     private Deck myDeck, opponentDeck;
     private Hand myHand, opponentHand;
     private Dice myDice, opponentDice;
@@ -71,6 +73,10 @@ public class Graphics extends Application{
         octo2Spell = new ArrayList<>();
         inkling2Spell = new ArrayList<>();
         shellfSpell = new ArrayList<>();
+        xanderSpells = new ArrayList<>();
+        camillaEXSpells = new ArrayList<>();
+        octo3Spells = new ArrayList<>();
+        ninaSpells = new ArrayList<>();
         //hinokaSpell = new ArrayList<>();
 
         scale = new Scale();
@@ -138,6 +144,17 @@ public class Graphics extends Application{
 
         kraken = new Spell("Kraken", 20, 5);
 
+        octoRelax = new Spell("Relax", 20, 4);
+
+        ultimaForce = new Spell("Ultima force", 40, 1);
+        bladeOfAres = new Spell("Blade of Ares", 40, 6);
+
+        pegasusForce = new Spell("Pegasus Force", 40, 4);
+        darkRider = new Spell("Dark flier", 30, 5);
+
+        ninaSpell1 = new Spell("Daydream", 5, 1);
+        ninaSpell2 = new Spell("Hawkeye", 30, 3);
+        ninaSpell3 = new Spell("Fury Spark", 20, 6);
         //hinokaStream = new Spell("STREAM EDGE", 50, 3);
     }
 
@@ -161,6 +178,18 @@ public class Graphics extends Application{
         addSpell(shellfSpell, shellSpell1);
         addSpell(shellfSpell, jellyDance);
 
+        addSpell(octo3Spells, octoRelax);
+        addSpell(octo3Spells, octoSpell1);
+
+        addSpell(xanderSpells, bladeOfAres);
+        addSpell(xanderSpells, ultimaForce);
+
+        addSpell(camillaEXSpells, pegasusForce);
+        addSpell(camillaEXSpells, darkRider);
+
+        addSpell(ninaSpells, ninaSpell1);
+        addSpell(ninaSpells, ninaSpell2);
+        addSpell(ninaSpells, ninaSpell3);
         //addSpell(hinokaSpell, hinokaStream);
         //addSpell(hinokaSpell, camSpell1);
     }
@@ -201,6 +230,18 @@ public class Graphics extends Application{
         Image octo2Png = new Image("images/octo2.png");
         octoling2 = new Card(octo2Png, "Elite octoling", 60, octo2Spell, Type.TALENT);
 
+        Image octo3Png = new Image("images/elitOct.png");
+        octoling3 = new Card(octo3Png, "Hotaru", 40, octo3Spells, Type.CLASSIC);
+
+        Image xanderPng = new Image("images/xander.png");
+        xander = new Card(xanderPng, "Xander", 70, xanderSpells, Type.ROYAL);
+
+        Image camillaEXpng = new Image("images/camillaEX.png");
+        camillaEX = new Card(camillaEXpng, "Camilla EX", 70, camillaEXSpells, Type.EX);
+
+        Image ninaPng = new Image("images/nina.png");
+        nina = new Card(ninaPng, "Nina", 50, ninaSpells, Type.DREAM);
+
         //Image hinok = new Image("images/hinoka.png");
         //hinoka = new Card(hinok, "Hinoka", 50, hinokaSpell, Type.BAWS);
 
@@ -228,17 +269,13 @@ public class Graphics extends Application{
         myDeck.add(inkling2);
         myDeck.add(shellfie);
         myDeck.add(octoling2);
+        myDeck.add(xander);
+        myDeck.add(camillaEX);
+        myDeck.add(nina);
+        myDeck.add(octoling3);
         //myDeck.add(hinoka);
 
         opponentDeck.add(aori);
-        opponentDeck.add(shellfie);
-        opponentDeck.add(inkling2);
-        opponentDeck.add(shellfie);
-        opponentDeck.add(inkling2);
-        opponentDeck.add(shellfie);
-        opponentDeck.add(inkling2);
-        opponentDeck.add(shellfie);
-        opponentDeck.add(inkling2);
         opponentDeck.add(shellfie);
         opponentDeck.add(inkling2);
         opponentDeck.add(shellfie);
